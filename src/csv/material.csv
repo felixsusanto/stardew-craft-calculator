@@ -1,0 +1,68 @@
+id,material,craftable
+388,Wood,FALSE
+390,Stone,FALSE
+335,Iron Bar,TRUE
+709,Hardwood,FALSE
+86,Earth Crystal,FALSE
+334,Copper Bar,TRUE
+382,Coal,FALSE
+724,Maple Syrup,FALSE
+771,Fiber,FALSE
+726,Pine Tar,FALSE
+330,Clay,FALSE
+725,Oak Resin,FALSE
+766,Slime,FALSE
+336,Gold Bar,TRUE
+338,Refined Quartz,TRUE
+337,Iridium Bar,TRUE
+787,Battery Pack,TRUE
+92,Sap,FALSE
+372,Clam,FALSE
+393,Coral,FALSE
+-1,Fish,FALSE
+16,Wild Horseradish,FALSE
+18,Daffodil,FALSE
+20,Leek,FALSE
+22,Dandelion,FALSE
+396,Spice Berry,FALSE
+398,Grape,FALSE
+402,Sweet Pea,FALSE
+404,Common Mushroom,FALSE
+406,Wild Plum,FALSE
+408,Hazelnut,FALSE
+410,Blackberry,FALSE
+412,Winter Root,FALSE
+414,Crystal Fruit,FALSE
+416,Snow Yam,FALSE
+418,Crocus,FALSE
+114,Ancient Seed,FALSE
+378,Copper Ore,FALSE
+380,Iron Ore,FALSE
+384,Gold Ore,FALSE
+768,Solar Essence,FALSE
+769,Void Essence,FALSE
+276,Pumpkin,FALSE
+93,Torch,TRUE
+428,Cloth,TRUE
+684,Bug Meat,FALSE
+84,Frozen Tear,FALSE
+72,Diamond,FALSE
+309,Acorn,FALSE
+310,Maple Seed,FALSE
+311,Pine Cone,FALSE
+420,Red Mushroom,FALSE
+422,Purple Mushroom,FALSE
+257,Morel,FALSE
+281,Chanterelle,FALSE
+248,Garlic,FALSE
+247,Oil,FALSE
+567,Marble,FALSE
+62,Aquamarine,FALSE
+767,Bat Wing,FALSE
+82,Fire Quartz,FALSE
+340,Honey,FALSE
+432,Truffle Oil,FALSE
+-2,Tulip Seeds,FALSE
+429,Blue Jazz Seeds,FALSE
+453,Poppy Seeds,FALSE
+455,Summer Spangle Seeds,FALSE
