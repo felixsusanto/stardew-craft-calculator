@@ -3,10 +3,12 @@ import _ from 'lodash';
 import { CraftableBase, Material } from '../App';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import styled from 'styled-components';
 import materialCsv from '../csv/material.csv';
+import craftablesCsv from '../csv/craftables.csv';
 
 const zeroMask = (x: number) => {
   if (x < 10) {
@@ -20,6 +22,7 @@ const zeroMask = (x: number) => {
 type CraftableProps = CraftableBase & {
   material: Material;
   onQtyChange: (v: Material) => void;
+  onClose: () => void;
 };
 
 const CraftableComponent: React.FC<CraftableProps> = (props) => {
@@ -54,12 +57,18 @@ const CraftableComponent: React.FC<CraftableProps> = (props) => {
         mb: 2,
       }}
     >
-      <img src={`/img/${zeroMask(props.id)}.png`} 
-        style={{ width: 32 }}
-      />
-      
+      <div>
+        <div style={{float: 'right', cursor: 'pointer'}}
+          onClick={() => props.onClose()}
+        >
+          <DeleteIcon />
+        </div>
+        <img src={`/img/craftables/${zeroMask(props.id)}.png`} 
+          style={{ width: 32 }}
+        />
+      </div>
       <Typography variant="h5" gutterBottom>
-        { props.name }
+        { props.label }
       </Typography> {' '}
       <Grid container spacing={2}>
         <Grid item xs={4}>
@@ -92,9 +101,6 @@ const CraftableComponent: React.FC<CraftableProps> = (props) => {
           />
         </Grid>
       </Grid>
-      
-      
-      
       <br />
       <MaterialNeeded material={materialNeeded} />
     </Paper>
@@ -143,7 +149,7 @@ export const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
         return (
           <SimpleRow key={key}>
             <div className="img">
-              <img src={`/object/${zeroMask(material.id)}.png`} style={{ width: 32}}/>
+              <img src={`/img/object/${zeroMask(material.id)}.png`} style={{ width: 32}}/>
             </div>
             <div className="txt">
               <Typography>
