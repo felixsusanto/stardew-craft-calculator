@@ -19,7 +19,7 @@ id,material,craftable
 92,Sap,FALSE
 372,Clam,FALSE
 393,Coral,FALSE
--1,Fish,FALSE
+130,Fish,FALSE
 16,Wild Horseradish,FALSE
 18,Daffodil,FALSE
 20,Leek,FALSE
@@ -62,7 +62,7 @@ id,material,craftable
 82,Fire Quartz,FALSE
 340,Honey,FALSE
 432,Truffle Oil,FALSE
--2,Tulip Seeds,FALSE
+427,Tulip Seeds,FALSE
 429,Blue Jazz Seeds,FALSE
 453,Poppy Seeds,FALSE
 455,Summer Spangle Seeds,FALSE
