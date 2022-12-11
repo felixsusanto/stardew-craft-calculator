@@ -1,20 +1,15 @@
 import React, { useState } from 'react';
 import _ from 'lodash';
-import styled from 'styled-components';
 import CssBaseline from '@mui/material/CssBaseline';
 import craftableCsv from './csv/craftables.csv';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-// import * as Papa from 'papaparse';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 import CraftableComponent, { MaterialNeeded } from './components/CraftableComponent';
 import Container from '@mui/material/Container';
+import TotalMaterial from './components/TotalMaterial';
 
-
-// const Container = styled.div`
-//   max-width: 800px;
-//   margin: 0 auto;
-//   padding: 0 20px;
-// `;
 
 export interface CraftableBase {
   id: number;
@@ -70,11 +65,10 @@ function App() {
                 return filterArr;
               });
             }}
-            renderInput={(params) => <TextField {...params} label="Add Craftables" />}
+            renderInput={(params) => <TextField {...params} size="small" label="Add Craftables" />}
           />
-          <div>
-            <MaterialNeeded material={_.omitBy(total, (v) => v === 0)} />  
-          </div>
+          <TotalMaterial total={_.omitBy(total, (v) => v === 0)} />
+          
           <div className="card">
             { filter.map((label) => {
               if (!craftable) return null;

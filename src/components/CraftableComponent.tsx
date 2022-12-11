@@ -8,7 +8,6 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import styled from 'styled-components';
 import materialCsv from '../csv/material.csv';
-import craftablesCsv from '../csv/craftables.csv';
 
 const zeroMask = (x: number) => {
   if (x < 10) {
@@ -24,6 +23,22 @@ type CraftableProps = CraftableBase & {
   onQtyChange: (v: Material) => void;
   onClose: () => void;
 };
+
+const TitleCard = styled.div`
+  display: flex;
+  margin-bottom: 10px;;
+  .img {
+    flex: 0 0 32px;
+  }
+  .trash {
+    align-self: flex-start;
+  }
+  .text {
+    margin-left: 8px;
+    flex: 1;
+    align-self: flex-end;
+  }
+`;
 
 const CraftableComponent: React.FC<CraftableProps> = (props) => {
   
@@ -57,22 +72,29 @@ const CraftableComponent: React.FC<CraftableProps> = (props) => {
         mb: 2,
       }}
     >
-      <div>
-        <div style={{float: 'right', cursor: 'pointer'}}
+      <TitleCard>
+        <div className="img">
+          <img src={`/img/craftables/${zeroMask(props.id)}.png`} 
+            style={{ width: 32 }}
+          />
+        </div>
+        <div className="text">
+          <Typography variant="h6" gutterBottom>
+            { props.label }
+          </Typography>
+        </div>
+        <div className="trash"
           onClick={() => props.onClose()}
         >
           <DeleteIcon />
         </div>
-        <img src={`/img/craftables/${zeroMask(props.id)}.png`} 
-          style={{ width: 32 }}
-        />
-      </div>
-      <Typography variant="h5" gutterBottom>
-        { props.label }
-      </Typography> {' '}
+      </TitleCard> {' '}
       <Grid container spacing={2}>
         <Grid item xs={4}>
-          <TextField variant="outlined" label="Goal" 
+          <TextField 
+            variant="standard" 
+            label="Goal" 
+            size="small"
             inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
             value={goal} 
             onChange={e => {
@@ -83,7 +105,10 @@ const CraftableComponent: React.FC<CraftableProps> = (props) => {
           />
         </Grid>
         <Grid item xs={4}>
-          <TextField variant="outlined" label="Possession" 
+          <TextField 
+            variant="standard" 
+            label="Possession" 
+            size="small"
             inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
             value={possession} 
             onChange={e => {
@@ -95,14 +120,17 @@ const CraftableComponent: React.FC<CraftableProps> = (props) => {
         </Grid>
         <Grid item xs={4}>
           <TextField
+            variant="standard" 
+            size="small"
             disabled
             label="Needed"
             value={needed}
           />
         </Grid>
       </Grid>
-      <br />
-      <MaterialNeeded material={materialNeeded} />
+      <div style={{marginTop: 10}}>
+        <MaterialNeeded material={materialNeeded} />
+      </div>
     </Paper>
   );
 };
@@ -149,15 +177,15 @@ export const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
         return (
           <SimpleRow key={key}>
             <div className="img">
-              <img src={`/img/object/${zeroMask(material.id)}.png`} style={{ width: 32}}/>
+              <img src={`/img/object/${zeroMask(material.id)}.png`} />
             </div>
             <div className="txt">
-              <Typography>
+              <Typography variant="body2">
                 {material.material}
               </Typography>
             </div>
             <div className="qty">
-              <Typography>
+              <Typography variant="body2">
                 {p.material && p.material[key]}
               </Typography>
 
