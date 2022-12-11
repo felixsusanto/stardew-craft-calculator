@@ -4,12 +4,10 @@ import CssBaseline from '@mui/material/CssBaseline';
 import craftableCsv from './csv/craftables.csv';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import CraftableComponent, { MaterialNeeded } from './components/CraftableComponent';
+import CraftableComponent from './components/CraftableComponent';
 import Container from '@mui/material/Container';
 import TotalMaterial from './components/TotalMaterial';
-
+import DataContext, { DataContextType, InitialData } from './context';
 
 export interface CraftableBase {
   id: number;
@@ -19,18 +17,34 @@ export interface CraftableBase {
 export type Material = Record<string, number>;
 export type Craftable = CraftableBase & Material;
 
+
+
 function App() {
-  const ref = React.useRef(new Map<string, Material>());
+  const calculateRef = React.useRef(new Map<string, Material>());
+  const initDataRef = React.useRef(new Map<string, InitialData>());
   const [craftable, setCraftable] = useState<Craftable[]>();
   const [filter, setFilter] = useState<string[]>([]);
   const [recalculate, setRecalculate] = useState<boolean>();
   const [total, setTotal] = useState<Material>();
+  const [ctx, setCtx] = useState<DataContextType>({});
   React.useEffect(() => {
     const craftable: Craftable[] = craftableCsv;
     setCraftable(craftable);
+    const existingData  = window.localStorage.getItem('initData');
+    const initDataContext = (existingData ? JSON.parse(existingData) : []) as InitialData[];
+    setCtx({ initData: initDataContext });
   }, []);
+
   React.useEffect(() => {
-    const total = [...ref.current.values()]
+    if (ctx.initData) {
+      const filter = ctx.initData.map((item) => item.label);
+      setFilter(filter);
+    }
+  }, [ctx]);
+
+  React.useEffect(() => {
+    if (typeof recalculate === 'undefined') return;
+    const total = [...calculateRef.current.values()]
       .reduce((acc, curr) => {
         Object.keys(curr)
           .forEach((key) => {
@@ -47,10 +61,12 @@ function App() {
       }, {})
     ;
     setTotal(total);
+    const t = [...initDataRef.current.values()];
+    window.localStorage.setItem('initData', JSON.stringify(t));
   }, [recalculate]);
 
   return (
-    <React.Fragment>
+    <DataContext.Provider value={ctx}>
       <CssBaseline />
       <Container maxWidth="sm">
         <div className="App">
@@ -86,14 +102,15 @@ function App() {
                       const clone = [...labelArr];
                       const removed = _.remove(clone, v => v === name);
                       if (removed.length) {
-                        ref.current.delete(name);
+                        calculateRef.current.delete(name);
                         setRecalculate(!recalculate);
                       }
                       return clone;
                     })
                   }}
-                  onQtyChange={(m) => {
-                    ref.current.set(name, m);
+                  onQtyChange={(m, d) => {
+                    calculateRef.current.set(name, m);
+                    initDataRef.current.set(d.label, d);
                     setRecalculate(!recalculate);
                   }}
                 />
@@ -103,7 +120,7 @@ function App() {
           
         </div>
       </Container>
-    </React.Fragment>
+    </DataContext.Provider>
   )
 }
 

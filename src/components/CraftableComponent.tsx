@@ -8,6 +8,7 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import styled from 'styled-components';
 import materialCsv from '../csv/material.csv';
+import DataContext, { InitialData } from '../context';
 
 const zeroMask = (x: number) => {
   if (x < 10) {
@@ -20,7 +21,7 @@ const zeroMask = (x: number) => {
 
 type CraftableProps = CraftableBase & {
   material: Material;
-  onQtyChange: (v: Material) => void;
+  onQtyChange: (v: Material, d: InitialData) => void;
   onClose: () => void;
 };
 
@@ -41,7 +42,7 @@ const TitleCard = styled.div`
 `;
 
 const CraftableComponent: React.FC<CraftableProps> = (props) => {
-  
+  const { initData } = React.useContext(DataContext);
   const [goal, setGoal] = useState(0);
   const [possession, setPossession] = useState(0);
   const [needed, setNeeded] = useState(0);
@@ -61,9 +62,24 @@ const CraftableComponent: React.FC<CraftableProps> = (props) => {
       })
     ;
     const filtered = _.omitBy(clone, (v) => v === 0);
-    props.onQtyChange(clone);
+    props.onQtyChange(clone, {
+      label: props.label,
+      goal, possession
+    });
     setMaterialNeeded(filtered);
-  }, [needed])
+  }, [needed]);
+
+  React.useEffect(() => {
+    if (initData) {
+      const exist = _.find(initData, {label: props.label});
+      if (exist) {
+        const { possession, goal } = exist;
+        setGoal(goal);
+        setPossession(possession);
+      }
+    }
+  }, [initData]);
+
   return (
     <Paper
       elevation={4}
