@@ -1,22 +1,15 @@
 import React, { useState } from 'react';
 import _ from 'lodash';
 import CssBaseline from '@mui/material/CssBaseline';
-import craftableCsv from './csv/craftables.csv';
+import craftableCsv, { CraftableBase, Material } from './csv/craftables.csv';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import CraftableComponent from './components/CraftableComponent';
+import CraftableComponent, { zeroMask } from './components/CraftableComponent';
 import Container from '@mui/material/Container';
 import TotalMaterial from './components/TotalMaterial';
 import DataContext, { DataContextType, InitialData } from './context';
-
-export interface CraftableBase {
-  id: number;
-  label: string;
-}
-
-export type Material = Record<string, number>;
+import { Box } from '@mui/material';
 export type Craftable = CraftableBase & Material;
-
 
 
 function App() {
@@ -71,7 +64,8 @@ function App() {
       <Container maxWidth="sm">
         <div className="App">
           <Autocomplete<Craftable>
-            options={craftableCsv}
+            options={_.sortBy(craftableCsv, ['group', 'label'])}
+            groupBy={(option) => option.group}
             sx={{mt: 3, mb: 3}}
             onChange={(e, v) => {
               v && setFilter((filterArr) => {
@@ -82,6 +76,17 @@ function App() {
               });
             }}
             renderInput={(params) => <TextField {...params} size="small" label="Add Craftables" />}
+            renderOption={(props, option) => (
+              <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 }, height: 48 }} {...props}>
+                <img
+                  loading="lazy"
+                  width="16"
+                  src={`/img/craftables/${zeroMask(option.id)}.png`}
+                  alt=""
+                />
+                {option.label}
+              </Box>
+            )}
           />
           <TotalMaterial total={_.omitBy(total, (v) => v === 0)} />
           
@@ -103,6 +108,7 @@ function App() {
                       const removed = _.remove(clone, v => v === name);
                       if (removed.length) {
                         calculateRef.current.delete(name);
+                        initDataRef.current.delete(name);
                         setRecalculate(!recalculate);
                       }
                       return clone;

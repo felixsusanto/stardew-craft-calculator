@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import _ from 'lodash';
-import { CraftableBase, Material } from '../App';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -8,9 +7,17 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import styled from 'styled-components';
 import materialCsv from '../csv/material.csv';
+import { CraftableBase, Material } from '../csv/craftables.csv';
 import DataContext, { InitialData } from '../context';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import numeral from 'numeral';
+import Tooltip from '@mui/material/Tooltip';
 
-const zeroMask = (x: number) => {
+console.log(materialCsv);
+
+export const zeroMask = (x: number) => {
   if (x < 10) {
     return `00${x}`;
   } else if (x < 100) {
@@ -19,7 +26,7 @@ const zeroMask = (x: number) => {
   return x + '';
 }
 
-type CraftableProps = CraftableBase & {
+type CraftableProps = Omit<CraftableBase, 'group'> & {
   material: Material;
   onQtyChange: (v: Material, d: InitialData) => void;
   onClose: () => void;
@@ -33,6 +40,7 @@ const TitleCard = styled.div`
   }
   .trash {
     align-self: flex-start;
+    cursor: pointer;
   }
   .text {
     margin-left: 8px;
@@ -163,53 +171,181 @@ const SimpleRow = styled.div`
   }
   .img {
     padding-right: 4px;
+    display: inline-block;
   }
   .txt {
+    display: inline-block;
+  }
+  .dots {
     flex: 1;
+    margin-left: 8px;
+    align-self: flex-end;
+    &:before {
+      content: '';
+      display: block;
+      border-top: 1px dashed grey;
+      margin-bottom: 8px;
+    }
   }
   .qty {
     padding-left: 4px;
   }
 `;
 
-type MaterialCsv = {
-  id: number;
-  material: string;
-  craftable: boolean;
+const BuySection = styled.div`
+  margin-top: 10px;
+  /* padding-top: 10px; */
+  border-top: 1px solid #ddd;
+`;
+type PriceCatReturn = 
+  | {
+    type: 'fixed';
+    price: number;
+  }
+  | {
+    type: 'season' | 'year';
+    prices: number[];
+  }
+;
+const priceCategory = (p: string): PriceCatReturn => {
+  const fixed = /\d+!/g;
+  const season = /\d+\|\d+/;
+  const year = /\d+\/\d+/;
+  if (fixed.test(p)) {
+    const price =  +p.replace('!', '');
+    return {
+      type: 'fixed',
+      price
+    }
+  } else if(season.test(p)) {
+    return {
+      type: 'season',
+      prices: p.split('|').map(v => +v)
+    };
+  } else if (year.test(p)) {
+    return {
+      type: 'year',
+      prices: p.split('/').map(v => +v)
+    };
+  }
+  throw new Error('not matching with anything');
 };
+
 export const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
-  React.useEffect(() => {
-  }, []);
+  const [buy, setBuy] = React.useState<boolean>();
   if (!p.material) return null;
   const keys = Object.keys(p.material);
   if (keys.length === 0) return null;
 
-
+  const soldMaterial = _.filter(materialCsv, v => v.price !== '')
+    .map(v => v.material)
+  ;
+  const buyable = !!_.intersection(soldMaterial, keys).length;
+  
   return (
-    <div style={{display: 'flex', flexWrap: 'wrap', gap: '0 20px'}}>
-      {keys.map((key) => {
-        const material = _.find(materialCsv as MaterialCsv[], {material: key});
-        if (!material) return null;
-        return (
-          <SimpleRow key={key}>
-            <div className="img">
-              <img src={`/img/object/${zeroMask(material.id)}.png`} />
+    <React.Fragment>
+      <div style={{display: 'flex', flexWrap: 'wrap', gap: '0 20px'}}>
+        {keys.map((key) => {
+          const material = _.find(materialCsv, {material: key});
+          if (!material) return null;
+          return (
+            <SimpleRow key={key}>
+              <div>
+                <div className="img">
+                  <img src={`/img/object/${zeroMask(material.id)}.png`} />
+                </div>
+                <div className="txt">
+                  <Typography variant="body2">
+                    {material.material}
+                  </Typography>
+                </div>
+              </div>
+              <div className="dots"></div>
+              <div className="qty">
+                <Typography variant="body2">
+                  {p.material && p.material[key]}
+                </Typography>
+              </div>
+            </SimpleRow>
+          );
+        })}
+      </div>
+      { buyable && (
+        <BuySection>
+          <FormGroup>
+            <FormControlLabel 
+              control={<Checkbox size="small" />}
+              label="Buy Resources"
+              componentsProps={{typography: { variant: 'body2' }}}
+              onChange={(e, v) => {
+                setBuy(v);
+              }}
+              value={buy}
+            />
+          </FormGroup>
+          { buy && (
+            <div>
+              {keys.map((key) => {
+                const material = _.find(materialCsv, (mat) => {
+                  return mat.material === key && mat.price !== '';
+                });
+                if (!material) return null;
+                const qty = p.material && p.material[key];
+                const priceCat = priceCategory(material.price);
+                return (
+                  <SimpleRow key={key}>
+                    <div>
+                      <div className="img">
+                        <img src={`/img/object/${zeroMask(material.id)}.png`} />
+                      </div>
+                      <div className="txt">
+                        <Typography variant="body2">
+                          {material.material} &times;{qty}
+                        </Typography>
+                      </div>
+                    </div>
+                    <div className="dots"></div>
+                    <div className="qty">
+                      <Typography variant="body2">
+                        { qty && priceCat.type === 'fixed' && 
+                          <span><b>{numeral(priceCat.price * qty).format('0,0')}</b> G</span>
+                        }
+                        { qty && priceCat.type === 'year' && 
+                          priceCat.prices
+                            .map((p, i) => {
+                              return (
+                                <React.Fragment key={i}>
+                                  <Tooltip arrow placement="top" title={i ? 'Year 2+' : 'Year 1'}>
+                                    <span><b>{numeral(qty * p).format('0,0')}</b> G</span>
+                                  </Tooltip>
+                                  {i === 0 ? ' / ' : ''}
+                                </React.Fragment>
+                              );
+                            })
+                        }
+                        { qty && priceCat.type === 'season' && 
+                          priceCat.prices
+                            .map((p, i) => {
+                              return (
+                                <React.Fragment key={i}>
+                                  <Tooltip arrow placement="top" title={i ? 'Off Season' : 'On Season'}>
+                                    <span><b>{numeral(qty * p).format('0,0')}</b> G</span>
+                                  </Tooltip>
+                                  {i === 0 ? ' / ' : ''}
+                                </React.Fragment>
+                              );
+                            })
+                        }
+                      </Typography>
+                    </div>
+                  </SimpleRow>
+                );
+              })}
             </div>
-            <div className="txt">
-              <Typography variant="body2">
-                {material.material}
-              </Typography>
-            </div>
-            <div className="qty">
-              <Typography variant="body2">
-                {p.material && p.material[key]}
-              </Typography>
-
-            </div>
-          </SimpleRow>
-        );
-      })}
-    </div>
+          )}
+        </BuySection>
+      )}
+    </React.Fragment>
   );
 };
 

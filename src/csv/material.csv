@@ -1,68 +1,69 @@
-id,material,craftable
-388,Wood,FALSE
-390,Stone,FALSE
-335,Iron Bar,TRUE
-709,Hardwood,FALSE
-86,Earth Crystal,FALSE
-334,Copper Bar,TRUE
-382,Coal,FALSE
-724,Maple Syrup,FALSE
-771,Fiber,FALSE
-726,Pine Tar,FALSE
-330,Clay,FALSE
-725,Oak Resin,FALSE
-766,Slime,FALSE
-336,Gold Bar,TRUE
-338,Refined Quartz,TRUE
-337,Iridium Bar,TRUE
-787,Battery Pack,TRUE
-92,Sap,FALSE
-372,Clam,FALSE
-393,Coral,FALSE
-130,Fish,FALSE
-16,Wild Horseradish,FALSE
-18,Daffodil,FALSE
-20,Leek,FALSE
-22,Dandelion,FALSE
-396,Spice Berry,FALSE
-398,Grape,FALSE
-402,Sweet Pea,FALSE
-404,Common Mushroom,FALSE
-406,Wild Plum,FALSE
-408,Hazelnut,FALSE
-410,Blackberry,FALSE
-412,Winter Root,FALSE
-414,Crystal Fruit,FALSE
-416,Snow Yam,FALSE
-418,Crocus,FALSE
-114,Ancient Seed,FALSE
-378,Copper Ore,FALSE
-380,Iron Ore,FALSE
-384,Gold Ore,FALSE
-768,Solar Essence,FALSE
-769,Void Essence,FALSE
-276,Pumpkin,FALSE
-93,Torch,TRUE
-428,Cloth,TRUE
-684,Bug Meat,FALSE
-84,Frozen Tear,FALSE
-72,Diamond,FALSE
-309,Acorn,FALSE
-310,Maple Seed,FALSE
-311,Pine Cone,FALSE
-420,Red Mushroom,FALSE
-422,Purple Mushroom,FALSE
-257,Morel,FALSE
-281,Chanterelle,FALSE
-248,Garlic,FALSE
-247,Oil,FALSE
-567,Marble,FALSE
-62,Aquamarine,FALSE
-767,Bat Wing,FALSE
-82,Fire Quartz,FALSE
-340,Honey,FALSE
-432,Truffle Oil,FALSE
-427,Tulip Seeds,FALSE
-429,Blue Jazz Seeds,FALSE
-453,Poppy Seeds,FALSE
-455,Summer Spangle Seeds,FALSE
+material,id,craftable,price
+Wood,388,FALSE,10/50
+Stone,390,FALSE,20/100
+Iron Bar,335,TRUE,
+Hardwood,709,FALSE,
+Earth Crystal,86,FALSE,
+Copper Bar,334,TRUE,
+Coal,382,FALSE,
+Maple Syrup,724,FALSE,
+Fiber,771,FALSE,
+Pine Tar,726,FALSE,
+Clay,330,FALSE,
+Oak Resin,725,FALSE,
+Slime,766,FALSE,
+Gold Bar,336,TRUE,
+Refined Quartz,338,TRUE,
+Iridium Bar,337,TRUE,
+Battery Pack,787,TRUE,
+Sap,92,FALSE,
+Clam,372,FALSE,
+Coral,393,FALSE,
+Fish,130,FALSE,
+Wild Horseradish,16,FALSE,
+Daffodil,18,FALSE,
+Leek,20,FALSE,
+Dandelion,22,FALSE,
+Spice Berry,396,FALSE,
+Grape,398,FALSE,
+Sweet Pea,402,FALSE,
+Common Mushroom,404,FALSE,
+Wild Plum,406,FALSE,
+Hazelnut,408,FALSE,
+Blackberry,410,FALSE,
+Winter Root,412,FALSE,
+Crystal Fruit,414,FALSE,
+Snow Yam,416,FALSE,
+Crocus,418,FALSE,
+Ancient Seed,114,FALSE,
+Copper Ore,378,FALSE,
+Iron Ore,380,FALSE,
+Gold Ore,384,FALSE,
+Solar Essence,768,FALSE,
+Void Essence,769,FALSE,
+Pumpkin,276,FALSE,
+Torch,93,TRUE,
+Cloth,428,TRUE,
+Bug Meat,684,FALSE,
+Frozen Tear,84,FALSE,
+Diamond,72,FALSE,
+Acorn,309,FALSE,
+Maple Seed,310,FALSE,
+Pine Cone,311,FALSE,
+Red Mushroom,420,FALSE,
+Purple Mushroom,422,FALSE,
+Morel,257,FALSE,
+Chanterelle,281,FALSE,
+Garlic,248,FALSE,
+Oil,247,FALSE,200!
+Marble,567,FALSE,
+Aquamarine,62,FALSE,
+Bat Wing,767,FALSE,
+Fire Quartz,82,FALSE,
+Honey,340,FALSE,
+Truffle Oil,432,FALSE,
+Tulip Bulb,427,FALSE,20|30
+Jazz Seeds,429,FALSE,
+Poppy Seeds,453,FALSE,100|150
+Spangle Seeds,455,FALSE,50|75
+Bone Fragment,881,FALSE,

@@ -13,6 +13,8 @@ export default defineConfig({
           let result: any;
           if (['FALSE', 'TRUE'].some(b => b === value)) {
             result = value === 'TRUE';
+          } else if(value === '') {
+            result = '';
           } else {
             result = (isNaN(+value) ? value : +value);
           }
