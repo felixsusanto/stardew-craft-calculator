@@ -1,7 +1,7 @@
 import React from 'react';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import { MaterialNeeded } from './CraftableComponent';
+import MaterialNeeded from './MaterialNeeded';
 import { Material } from '../csv/craftables.csv';
 
 

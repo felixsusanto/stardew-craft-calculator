@@ -5,7 +5,7 @@ Iron Bar,335,TRUE,
 Hardwood,709,FALSE,
 Earth Crystal,86,FALSE,
 Copper Bar,334,TRUE,
-Coal,382,FALSE,
+Coal,382,FALSE,150/250
 Maple Syrup,724,FALSE,
 Fiber,771,FALSE,
 Pine Tar,726,FALSE,
@@ -36,9 +36,9 @@ Crystal Fruit,414,FALSE,
 Snow Yam,416,FALSE,
 Crocus,418,FALSE,
 Ancient Seed,114,FALSE,
-Copper Ore,378,FALSE,
-Iron Ore,380,FALSE,
-Gold Ore,384,FALSE,
+Copper Ore,378,FALSE,75/150
+Iron Ore,380,FALSE,150/250
+Gold Ore,384,FALSE,400/750
 Solar Essence,768,FALSE,
 Void Essence,769,FALSE,
 Pumpkin,276,FALSE,
