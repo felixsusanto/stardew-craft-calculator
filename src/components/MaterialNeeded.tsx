@@ -141,62 +141,61 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
           { buy && (
             <React.Fragment>
               <div>
-                {keys.map((key) => {
-                  const material = _.find(materialCsv, (mat) => {
-                    return mat.material === key && mat.price !== '';
-                  });
-                  if (!material) return null;
-                  const qty = p.material && p.material[key];
-                  const priceCat = priceCategory(material.price);
-                  return (
-                    <SimpleRow key={key}>
-                      <div>
-                        <div className="img">
-                          <img src={`/img/object/${zeroMask(material.id)}.png`} />
+                {intersection
+                  .map((key) => {
+                    const material = _.find(materialCsv, {material: key})!;
+                    const priceCat = priceCategory(material.price);
+                    const qty = (p.material!)[key];
+                    return (
+                      <SimpleRow key={key}>
+                        <div>
+                          <div className="img">
+                            <img src={`/img/object/${zeroMask(material.id)}.png`} />
+                          </div>
+                          <div className="txt">
+                            <Typography variant="body2">
+                              {material.material} &times;{qty}
+                            </Typography>
+                          </div>
                         </div>
-                        <div className="txt">
+                        <div className="dots" />
+                        <div className="qty">
                           <Typography variant="body2">
-                            {material.material} &times;{qty}
+                            { qty && priceCat.type === 'fixed' && 
+                              <span><b>{numeral(priceCat.price * qty).format('0,0')}</b> G</span>
+                            }
+                            { qty && priceCat.type === 'year' && 
+                              priceCat.prices
+                                .map((p, i) => {
+                                  return (
+                                    <React.Fragment key={i}>
+                                      <Tooltip arrow placement="top" title={i ? 'Year 2+' : 'Year 1'}>
+                                        <span><b>{numeral(qty * p).format('0,0')}</b> G</span>
+                                      </Tooltip>
+                                      {i === 0 ? ' / ' : ''}
+                                    </React.Fragment>
+                                  );
+                                })
+                            }
+                            { qty && priceCat.type === 'season' && 
+                              priceCat.prices
+                                .map((p, i) => {
+                                  return (
+                                    <React.Fragment key={i}>
+                                      <Tooltip arrow placement="top" title={i ? 'Off Season' : 'On Season'}>
+                                        <span><b>{numeral(qty * p).format('0,0')}</b> G</span>
+                                      </Tooltip>
+                                      {i === 0 ? ' / ' : ''}
+                                    </React.Fragment>
+                                  );
+                                })
+                            }
                           </Typography>
                         </div>
-                      </div>
-                      <div className="dots" />
-                      <div className="qty">
-                        <Typography variant="body2">
-                          { qty && priceCat.type === 'fixed' && 
-                            <span><b>{numeral(priceCat.price * qty).format('0,0')}</b> G</span>
-                          }
-                          { qty && priceCat.type === 'year' && 
-                            priceCat.prices
-                              .map((p, i) => {
-                                return (
-                                  <React.Fragment key={i}>
-                                    <Tooltip arrow placement="top" title={i ? 'Year 2+' : 'Year 1'}>
-                                      <span><b>{numeral(qty * p).format('0,0')}</b> G</span>
-                                    </Tooltip>
-                                    {i === 0 ? ' / ' : ''}
-                                  </React.Fragment>
-                                );
-                              })
-                          }
-                          { qty && priceCat.type === 'season' && 
-                            priceCat.prices
-                              .map((p, i) => {
-                                return (
-                                  <React.Fragment key={i}>
-                                    <Tooltip arrow placement="top" title={i ? 'Off Season' : 'On Season'}>
-                                      <span><b>{numeral(qty * p).format('0,0')}</b> G</span>
-                                    </Tooltip>
-                                    {i === 0 ? ' / ' : ''}
-                                  </React.Fragment>
-                                );
-                              })
-                          }
-                        </Typography>
-                      </div>
-                    </SimpleRow>
-                  );
-                })}
+                      </SimpleRow>
+                    );
+                  })
+                }
               </div>
               {intersection.length > 1 && (
                 <div style={{marginTop: 8}}>

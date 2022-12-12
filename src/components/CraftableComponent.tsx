@@ -46,7 +46,7 @@ const TitleCard = styled.div`
 
 const CraftableComponent: React.FC<CraftableProps> = (props) => {
   const { initData } = React.useContext(DataContext);
-  const [goal, setGoal] = useState(0);
+  const [goal, setGoal] = useState(1);
   const [possession, setPossession] = useState(0);
   const [needed, setNeeded] = useState(0);
   const [materialNeeded, setMaterialNeeded] = useState<Material>();
