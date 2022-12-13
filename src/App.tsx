@@ -11,6 +11,9 @@ import { Box } from '@mui/material';
 export type Craftable = CraftableBase & Material;
 import styled from 'styled-components';
 import Footer from './components/Footer';
+import Fab from '@mui/material/Fab';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import Header from './components/Header'; 
 
 const CssTextField = styled(TextField)({
   '& label.Mui-focused': {
@@ -38,7 +41,9 @@ const CssTextField = styled(TextField)({
   }
 });
 
-const Container = styled.div`
+
+
+export const Container = styled.div`
   max-width: 620px;
   padding: 0 20px;
   margin: 0 auto;
@@ -121,37 +126,37 @@ function App() {
     <DataContext.Provider value={ctx}>
       <CssBaseline />
       <ThreeRowFlex>
-        <div style={{background: 'rgba(21, 71, 148, 0.8)', padding: '10px 0', marginBottom: '10px'}}>
-          <Container>
-            <Autocomplete<Craftable>
-              options={_.sortBy(craftableCsv, ['group', 'label'])}
-              groupBy={(option) => option.group}
-              onChange={(e, v) => {
-                v && setFilter((filterArr) => {
-                  if (!filterArr.some(val => v.label === val)) {
-                    return [...filterArr, v.label];
-                  }
-                  return filterArr;
-                });
-              }}
-              renderInput={(params) => <CssTextField {...params} size="small" label="Add Craftables"/>}
-              renderOption={(props, option) => (
-                <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 }, height: 48 }} {...props}>
-                  <img
-                    loading="lazy"
-                    width="16"
-                    src={`/img/craftables/${zeroMask(option.id)}.png`}
-                    alt=""
-                  />
-                  {option.label}
-                </Box>
-              )}
-            />
-          </Container>
-        </div>
+        <Header>
+          <Autocomplete<Craftable>
+            options={_.sortBy(craftableCsv, ['group', 'label'])}
+            groupBy={(option) => option.group}
+            onChange={(e, v) => {
+              v && setFilter((filterArr) => {
+                if (!filterArr.some(val => v.label === val)) {
+                  return [...filterArr, v.label];
+                }
+                return filterArr;
+              });
+            }}
+            renderInput={(params) => <CssTextField {...params} size="small" label="Add Craftables"/>}
+            renderOption={(props, option) => (
+              <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 }, height: 48 }} {...props}>
+                <img
+                  loading="lazy"
+                  width="16"
+                  src={`/img/craftables/${zeroMask(option.id)}.png`}
+                  alt=""
+                />
+                {option.label}
+              </Box>
+            )}
+          />
+        </Header>
         <div className="mid">
           <Container>
-            <TotalMaterial total={_.omitBy(total, (v) => v === 0)} />
+            { filter.length > 1 && (
+              <TotalMaterial total={_.omitBy(total, (v) => v === 0)} />
+            )}
             { !filter.length && (
               <Splash>
                 <div className="title">
@@ -188,7 +193,7 @@ function App() {
                       })
                     }}
                     onQtyChange={(m, d) => {
-                      const {group, ...rest} = m;
+                      const {group, season, ...rest} = m;
                       calculateRef.current.set(name, rest);
                       initDataRef.current.set(d.label, d);
                       setRecalculate(!recalculate);
@@ -201,6 +206,11 @@ function App() {
         </div>
         <Footer />
       </ThreeRowFlex>
+      <div style={{ position: 'fixed', right: 20, bottom: 20}}>
+        <Fab color="primary" aria-label="add">
+          <ArrowUpwardIcon />
+        </Fab>
+      </div>
     </DataContext.Provider>
   )
 }

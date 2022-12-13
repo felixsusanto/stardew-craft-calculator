@@ -15,6 +15,14 @@ type MaterialNeededProps = {
   material?: Material;
 };
 
+enum Season {
+  EMPTY = 'unspecified',
+  SPRING = 'spring',
+  SUMMER = 'summer',
+  FALL = 'fall',
+  WINTER = 'winter',
+};
+
 const SimpleRow = styled.div`
   display: flex;
   align-items: center;
@@ -85,7 +93,15 @@ const BuySection = styled.div`
   border-top: 1px solid #ddd;
 `;
 
+enum Year {
+  EMPTY = 'UNSPECIFIED',
+  ONE = 'ONE',
+  TWO_PLUS = 'TWO_PLUS',
+};
+
 const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
+  const [year, setYear] = React.useState<Year>(Year.EMPTY);
+  const [season, setSeason] = React.useState<Season>(Season.EMPTY);
   const [buy, setBuy] = React.useState<boolean>();
   if (!p.material) return null;
   const keys = Object.keys(p.material);
@@ -99,6 +115,21 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
   
   return (
     <React.Fragment>
+      <div>
+        <select value={year} onChange={e => setYear(e.currentTarget.value as Year)}>
+          <option value={Year.EMPTY}>Unspecified</option>
+          <option value={Year.ONE}>year 1</option>
+          <option value={Year.TWO_PLUS}>year 2+</option>
+        </select>
+        <select value={season} onChange={e => setSeason(e.currentTarget.value as Season)}>
+          <option value={Season.EMPTY}>Unspecified</option>
+          <option value={Season.SPRING}>Spring</option>
+          <option value={Season.SUMMER}>Summer</option>
+          <option value={Season.FALL}>Fall</option>
+          <option value={Season.WINTER}>Winter</option>
+        </select>
+      </div>
+      <div>{year} - {season}</div>
       <div style={{display: 'flex', flexWrap: 'wrap', gap: '0 30px'}}>
         {keys.map((key) => {
           const material = _.find(materialCsv, {material: key});
@@ -161,31 +192,37 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
                         <div className="dots" />
                         <div className="qty">
                           <Typography variant="body2">
-                            { qty && priceCat.type === 'fixed' && 
+                            { priceCat.type === 'fixed' && 
                               <span><b>{numeral(priceCat.price * qty).format('0,0')}</b> G</span>
                             }
-                            { qty && priceCat.type === 'year' && 
+                            { priceCat.type === 'year' && 
                               priceCat.prices
                                 .map((p, i) => {
+                                  if (year === Year.ONE && i === 1) return null;
+                                  if (year === Year.TWO_PLUS && i === 0) return null;
                                   return (
                                     <React.Fragment key={i}>
                                       <Tooltip arrow placement="top" title={i ? 'Year 2+' : 'Year 1'}>
                                         <span><b>{numeral(qty * p).format('0,0')}</b> G</span>
                                       </Tooltip>
-                                      {i === 0 ? ' / ' : ''}
+                                      {year === Year.EMPTY && i === 0 ? ' / ' : ''}
                                     </React.Fragment>
                                   );
                                 })
                             }
-                            { qty && priceCat.type === 'season' && 
+                            { priceCat.type === 'season' &&
                               priceCat.prices
                                 .map((p, i) => {
+                                  if (season !== Season.EMPTY) {
+                                    if (material.season === season && i === 1) return null;
+                                    if (material.season !== season && i === 0) return null;
+                                  }
                                   return (
                                     <React.Fragment key={i}>
-                                      <Tooltip arrow placement="top" title={i ? 'Off Season' : 'On Season'}>
+                                      <Tooltip arrow placement="top" title={i ? `Off Season(${material.season})` : 'On Season'}>
                                         <span><b>{numeral(qty * p).format('0,0')}</b> G</span>
                                       </Tooltip>
-                                      {i === 0 ? ' / ' : ''}
+                                      {season === Season.EMPTY && i === 0 ? ' / ' : ''}
                                     </React.Fragment>
                                   );
                                 })
@@ -210,9 +247,21 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
                           const material = _.find(materialCsv, {material: key})!;
                           const priceCat = priceCategory(material.price);
                           const qty = (p.material!)[key];
+                          
                           if (priceCat.type === 'fixed') {
                             const total = priceCat.price * qty;
                             return [total, total];
+                          }
+                          if (priceCat.type === 'season' && season !== Season.EMPTY) {
+                            const index = material.season === season ? 0 : 1;
+                            const total = qty * priceCat.prices[index];
+                            const res = [total, total];
+                            return res;
+                          } else if (priceCat.type === 'year' && year !== Year.EMPTY) {
+                            const index = year === Year.ONE ? 0 : 1;
+                            const total = qty * priceCat.prices[index];
+                            const res = [total, total];
+                            return res;
                           } else {
                             return priceCat.prices.map(v => v * qty);
                           }
@@ -222,10 +271,18 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
                           acc[1] = acc[1] + curr[1];
                           return acc;
                         })
-                        .map((v, i) => {
+                        .map((v, i, arr) => {
+                          const sameValueArray = arr[0] === arr[1];
+                          if (sameValueArray && i === 0) return null;
+                          const title = sameValueArray ? 
+                            'Total Costs' : (i ? 'Maximum Cost' : 'Minimum Cost')
+                          ;
                           return (
                             <React.Fragment key={i}>
-                              <Tooltip arrow placement="top" title={i ? 'Maximum Cost' : 'Minimum Cost'}>
+                              <Tooltip
+                                arrow
+                                placement="top"
+                                title={title}>
                                 <span><b>{numeral(v).format('0,0')}</b> G</span>
                               </Tooltip>
                               {i === 0 ? ' / ' : ''}
