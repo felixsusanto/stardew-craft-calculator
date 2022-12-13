@@ -8,7 +8,7 @@ import Paper from '@mui/material/Paper';
 import styled from 'styled-components';
 
 import { CraftableBase, Material } from '../csv/craftables.csv';
-import DataContext, { InitialData } from '../context';
+import DataContext, { InitialData } from '../context/InitialDataContext';
 import MaterialNeeded from './MaterialNeeded';
 
 

@@ -6,7 +6,8 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import CraftableComponent, { zeroMask } from './components/CraftableComponent';
 import TotalMaterial from './components/TotalMaterial';
-import DataContext, { DataContextType, InitialData } from './context';
+import DataContext, { DataContextType, InitialData } from './context/InitialDataContext';
+import CalculatorConfigContext, { CalculatorConfigType, CalculatorConfig, Season, Year } from './context/CalculatorConfigContext';
 import { Box } from '@mui/material';
 export type Craftable = CraftableBase & Material;
 import styled from 'styled-components';
@@ -40,8 +41,6 @@ const CssTextField = styled(TextField)({
     fill: '#fff'
   }
 });
-
-
 
 export const Container = styled.div`
   max-width: 620px;
@@ -84,6 +83,12 @@ function App() {
   const [recalculate, setRecalculate] = useState<boolean>();
   const [total, setTotal] = useState<Material>();
   const [ctx, setCtx] = useState<DataContextType>({});
+
+  const [config, setConfig] = useState<CalculatorConfig>({
+    season: Season.EMPTY,
+    year: Year.EMPTY
+  });
+
   React.useEffect(() => {
     const craftable: Craftable[] = craftableCsv;
     setCraftable(craftable);
@@ -125,87 +130,96 @@ function App() {
   return (
     <DataContext.Provider value={ctx}>
       <CssBaseline />
-      <ThreeRowFlex>
-        <Header>
-          <Autocomplete<Craftable>
-            options={_.sortBy(craftableCsv, ['group', 'label'])}
-            groupBy={(option) => option.group}
-            onChange={(e, v) => {
-              v && setFilter((filterArr) => {
-                if (!filterArr.some(val => v.label === val)) {
-                  return [...filterArr, v.label];
-                }
-                return filterArr;
-              });
-            }}
-            renderInput={(params) => <CssTextField {...params} size="small" label="Add Craftables"/>}
-            renderOption={(props, option) => (
-              <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 }, height: 48 }} {...props}>
-                <img
-                  loading="lazy"
-                  width="16"
-                  src={`/img/craftables/${zeroMask(option.id)}.png`}
-                  alt=""
-                />
-                {option.label}
-              </Box>
-            )}
-          />
-        </Header>
-        <div className="mid">
-          <Container>
-            { filter.length > 1 && (
-              <TotalMaterial total={_.omitBy(total, (v) => v === 0)} />
-            )}
-            { !filter.length && (
-              <Splash>
-                <div className="title">
-                  Craftables&nbsp;Calculator
-                </div>
-                <img 
-                  src="https://stardewvalley.net/wp-content/uploads/2017/12/main_logo.png" 
-                  alt="Stardew Valley" 
-                />
-              </Splash>
-            )}
-            <div className="card">
-              { filter.map((label) => {
-                if (!craftable) return null;
-                const craft = _.find(craftable, { label }) as Craftable;
-                if (!craft) return null;
-                const {id, label: name, ...rest} = craft;
-                return (
-                  <CraftableComponent 
-                    key={id}
-                    label={name}
-                    id={id}
-                    material={rest}
-                    onClose={() => {
-                      setFilter((labelArr) => {
-                        const clone = [...labelArr];
-                        const removed = _.remove(clone, v => v === name);
-                        if (removed.length) {
-                          calculateRef.current.delete(name);
-                          initDataRef.current.delete(name);
-                          setRecalculate(!recalculate);
-                        }
-                        return clone;
-                      })
-                    }}
-                    onQtyChange={(m, d) => {
-                      const {group, season, ...rest} = m;
-                      calculateRef.current.set(name, rest);
-                      initDataRef.current.set(d.label, d);
-                      setRecalculate(!recalculate);
-                    }}
+      <CalculatorConfigContext.Provider 
+        value={{
+          config,
+          setConfig: (partialCfg) => {
+            setConfig((curr) => ({...curr, ...partialCfg}));
+          }
+        }}
+      >
+        <ThreeRowFlex>
+          <Header>
+            <Autocomplete<Craftable>
+              options={_.sortBy(craftableCsv, ['group', 'label'])}
+              groupBy={(option) => option.group}
+              onChange={(e, v) => {
+                v && setFilter((filterArr) => {
+                  if (!filterArr.some(val => v.label === val)) {
+                    return [...filterArr, v.label];
+                  }
+                  return filterArr;
+                });
+              }}
+              renderInput={(params) => <CssTextField {...params} size="small" label="Add Craftables"/>}
+              renderOption={(props, option) => (
+                <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 }, height: 48 }} {...props}>
+                  <img
+                    loading="lazy"
+                    width="16"
+                    src={`/img/craftables/${zeroMask(option.id)}.png`}
+                    alt=""
                   />
-                );
-              })}
-            </div>
-          </Container>
-        </div>
-        <Footer />
-      </ThreeRowFlex>
+                  {option.label}
+                </Box>
+              )}
+            />
+          </Header>
+          <div className="mid">
+            <Container>
+              { filter.length > 1 && (
+                <TotalMaterial total={_.omitBy(total, (v) => v === 0)} />
+              )}
+              { !filter.length && (
+                <Splash>
+                  <div className="title">
+                    Craftables&nbsp;Calculator
+                  </div>
+                  <img 
+                    src="https://stardewvalley.net/wp-content/uploads/2017/12/main_logo.png" 
+                    alt="Stardew Valley" 
+                  />
+                </Splash>
+              )}
+              <div className="card">
+                { filter.map((label) => {
+                  if (!craftable) return null;
+                  const craft = _.find(craftable, { label }) as Craftable;
+                  if (!craft) return null;
+                  const {id, label: name, ...rest} = craft;
+                  return (
+                    <CraftableComponent 
+                      key={id}
+                      label={name}
+                      id={id}
+                      material={rest}
+                      onClose={() => {
+                        setFilter((labelArr) => {
+                          const clone = [...labelArr];
+                          const removed = _.remove(clone, v => v === name);
+                          if (removed.length) {
+                            calculateRef.current.delete(name);
+                            initDataRef.current.delete(name);
+                            setRecalculate(!recalculate);
+                          }
+                          return clone;
+                        })
+                      }}
+                      onQtyChange={(m, d) => {
+                        const {group, season, ...rest} = m;
+                        calculateRef.current.set(name, rest);
+                        initDataRef.current.set(d.label, d);
+                        setRecalculate(!recalculate);
+                      }}
+                    />
+                  );
+                })}
+              </div>
+            </Container>
+          </div>
+          <Footer />
+        </ThreeRowFlex>
+      </CalculatorConfigContext.Provider>
       <div style={{ position: 'fixed', right: 20, bottom: 20}}>
         <Fab color="primary" aria-label="add">
           <ArrowUpwardIcon />

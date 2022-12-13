@@ -10,17 +10,11 @@ import { Material } from '../csv/craftables.csv';
 import Typography from '@mui/material/Typography';
 import { zeroMask } from './CraftableComponent';
 import _ from 'lodash';
+import CalculatorConfigContext, { Year, Season } from '../context/CalculatorConfigContext';
+
 
 type MaterialNeededProps = {
   material?: Material;
-};
-
-enum Season {
-  EMPTY = 'unspecified',
-  SPRING = 'spring',
-  SUMMER = 'summer',
-  FALL = 'fall',
-  WINTER = 'winter',
 };
 
 const SimpleRow = styled.div`
@@ -93,16 +87,10 @@ const BuySection = styled.div`
   border-top: 1px solid #ddd;
 `;
 
-enum Year {
-  EMPTY = 'UNSPECIFIED',
-  ONE = 'ONE',
-  TWO_PLUS = 'TWO_PLUS',
-};
-
 const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
-  const [year, setYear] = React.useState<Year>(Year.EMPTY);
-  const [season, setSeason] = React.useState<Season>(Season.EMPTY);
   const [buy, setBuy] = React.useState<boolean>();
+  const { config } = React.useContext(CalculatorConfigContext);
+  const { year, season } = config;
   if (!p.material) return null;
   const keys = Object.keys(p.material);
   if (keys.length === 0) return null;
@@ -115,21 +103,6 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
   
   return (
     <React.Fragment>
-      <div>
-        <select value={year} onChange={e => setYear(e.currentTarget.value as Year)}>
-          <option value={Year.EMPTY}>Unspecified</option>
-          <option value={Year.ONE}>year 1</option>
-          <option value={Year.TWO_PLUS}>year 2+</option>
-        </select>
-        <select value={season} onChange={e => setSeason(e.currentTarget.value as Season)}>
-          <option value={Season.EMPTY}>Unspecified</option>
-          <option value={Season.SPRING}>Spring</option>
-          <option value={Season.SUMMER}>Summer</option>
-          <option value={Season.FALL}>Fall</option>
-          <option value={Season.WINTER}>Winter</option>
-        </select>
-      </div>
-      <div>{year} - {season}</div>
       <div style={{display: 'flex', flexWrap: 'wrap', gap: '0 30px'}}>
         {keys.map((key) => {
           const material = _.find(materialCsv, {material: key});
