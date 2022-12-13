@@ -90,8 +90,8 @@ const BuySection = styled.div`
 const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
   const [buy, setBuy] = React.useState<boolean>();
   const { config } = React.useContext(CalculatorConfigContext);
+  if (!config || !p.material) return null;
   const { year, season } = config;
-  if (!p.material) return null;
   const keys = Object.keys(p.material);
   if (keys.length === 0) return null;
 

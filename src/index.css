@@ -1,6 +1,6 @@
 body {
   background: #e7ebf0!important;
-  background: url("https://stardewvalley.net/wp-content/uploads/2017/12/stardewbackground.png") no-repeat fixed center center / cover!important;
+  background: url("/img/stardewbackground.png") no-repeat fixed center center / cover!important;
 }
 img {
   image-rendering: pixelated;

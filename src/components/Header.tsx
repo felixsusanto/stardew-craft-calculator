@@ -79,7 +79,7 @@ const Header: React.FC<HeaderProps> = (props) => {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 label="Season"
-                value={config.season}
+                value={config?.season}
                 onChange={(e) => setConfig({season: e.target.value as Season})}
               >
                 <MenuItem value={Season.EMPTY}>Unspecified</MenuItem>
@@ -95,7 +95,7 @@ const Header: React.FC<HeaderProps> = (props) => {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 label="Year"
-                value={config.year}
+                value={config?.year}
                 onChange={(e) => setConfig({year: e.target.value as Year})}
               >
                 <MenuItem value={Year.EMPTY}>Unspecified</MenuItem>

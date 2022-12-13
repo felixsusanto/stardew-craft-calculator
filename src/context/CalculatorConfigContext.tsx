@@ -20,7 +20,7 @@ export type CalculatorConfig = {
 };
 
 export type CalculatorConfigType = {
-  config: CalculatorConfig;
+  config?: CalculatorConfig;
   setConfig: (newConfig: Partial<CalculatorConfig>) => void;
 };
 

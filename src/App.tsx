@@ -15,6 +15,7 @@ import Footer from './components/Footer';
 import Fab from '@mui/material/Fab';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import Header from './components/Header'; 
+import mainLogo from './assets/main_logo.png';
 
 const CssTextField = styled(TextField)({
   '& label.Mui-focused': {
@@ -75,6 +76,11 @@ const Splash = styled.div`
   }
 `;
 
+const defaultConfigValue = {
+  season: Season.EMPTY,
+  year: Year.EMPTY
+};
+
 function App() {
   const calculateRef = React.useRef(new Map<string, Material>());
   const initDataRef = React.useRef(new Map<string, InitialData>());
@@ -84,17 +90,21 @@ function App() {
   const [total, setTotal] = useState<Material>();
   const [ctx, setCtx] = useState<DataContextType>({});
 
-  const [config, setConfig] = useState<CalculatorConfig>({
-    season: Season.EMPTY,
-    year: Year.EMPTY
-  });
+  const [config, setConfig] = useState<CalculatorConfig>();
 
   React.useEffect(() => {
     const craftable: Craftable[] = craftableCsv;
     setCraftable(craftable);
-    const existingData  = window.localStorage.getItem('initData');
-    const initDataContext = (existingData ? JSON.parse(existingData) : []) as InitialData[];
+    const existingInitData  = window.localStorage.getItem('initData');
+    const existingConfigData  = window.localStorage.getItem('configData');
+    const initDataContext = (existingInitData ? JSON.parse(existingInitData) : []) as InitialData[];
+    const initConfigDataContext = (
+      existingConfigData ? 
+      JSON.parse(existingConfigData) : defaultConfigValue
+      ) as CalculatorConfig
+    ;
     setCtx({ initData: initDataContext });
+    setConfig(initConfigDataContext);
   }, []);
 
   React.useEffect(() => {
@@ -103,6 +113,11 @@ function App() {
       setFilter(filter);
     }
   }, [ctx]);
+
+  React.useEffect(() => {
+    if (typeof config === 'undefined') return;
+    window.localStorage.setItem('configData', JSON.stringify(config));
+  }, [config]);
 
   React.useEffect(() => {
     if (typeof recalculate === 'undefined') return;
@@ -134,7 +149,9 @@ function App() {
         value={{
           config,
           setConfig: (partialCfg) => {
-            setConfig((curr) => ({...curr, ...partialCfg}));
+            setConfig((curr) => {
+              return {...defaultConfigValue, ...curr, ...partialCfg};
+            });
           }
         }}
       >
@@ -176,7 +193,7 @@ function App() {
                     Craftables&nbsp;Calculator
                   </div>
                   <img 
-                    src="https://stardewvalley.net/wp-content/uploads/2017/12/main_logo.png" 
+                    src={mainLogo} 
                     alt="Stardew Valley" 
                   />
                 </Splash>
