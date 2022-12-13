@@ -174,7 +174,7 @@ function App() {
                   <img
                     loading="lazy"
                     width="16"
-                    src={`/img/craftables/${zeroMask(option.id)}.png`}
+                    src={`${import.meta.env.BASE_URL}/img/craftables/${zeroMask(option.id)}.png`}
                     alt=""
                   />
                   {option.label}

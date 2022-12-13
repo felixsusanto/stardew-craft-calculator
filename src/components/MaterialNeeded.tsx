@@ -111,7 +111,7 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
             <SimpleRow key={key}>
               <div>
                 <div className="img">
-                  <img src={`/img/object/${zeroMask(material.id)}.png`} />
+                  <img src={`${import.meta.env.BASE_URL}/img/object/${zeroMask(material.id)}.png`} />
                 </div>
                 <div className="txt">
                   <Typography variant="body2">
@@ -154,7 +154,7 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
                       <SimpleRow key={key}>
                         <div>
                           <div className="img">
-                            <img src={`/img/object/${zeroMask(material.id)}.png`} />
+                            <img src={`${import.meta.env.BASE_URL}/img/object/${zeroMask(material.id)}.png`} />
                           </div>
                           <div className="txt">
                             <Typography variant="body2">

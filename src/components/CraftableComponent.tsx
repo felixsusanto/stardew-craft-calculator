@@ -93,7 +93,7 @@ const CraftableComponent: React.FC<CraftableProps> = (props) => {
     >
       <TitleCard>
         <div className="img">
-          <img src={`/img/craftables/${zeroMask(props.id)}.png`} 
+          <img src={`${import.meta.env.BASE_URL}/img/craftables/${zeroMask(props.id)}.png`} 
             style={{ width: 32 }}
           />
         </div>
