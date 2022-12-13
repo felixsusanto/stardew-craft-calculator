@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import { zeroMask } from './CraftableComponent';
 import _ from 'lodash';
 import CalculatorConfigContext, { Year, Season } from '../context/CalculatorConfigContext';
-
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 type MaterialNeededProps = {
   material?: Material;
@@ -21,7 +21,10 @@ const SimpleRow = styled.div`
   display: flex;
   align-items: center;
   flex-basis: 100%; 
-  @media(min-width: 600px) {
+  @media(min-width: 500px) {
+    flex-basis: calc(50% - 30px); 
+  }
+  @media(min-width: 700px) {
     flex-basis: calc(33.33% - 20px); 
   }
   .img {
@@ -87,6 +90,36 @@ const BuySection = styled.div`
   border-top: 1px solid #ddd;
 `;
 
+type SimpleChecklistProps = {
+  id: string;
+  material: string;
+  value?: number;
+};
+const SimpleChecklist: React.FC<SimpleChecklistProps> = (props) => {
+  const [strike, setStrike] = React.useState(false);
+  return (
+    <SimpleRow>
+      <div onClick={() => setStrike(!strike)} style={{ cursor: 'pointer' }}>
+        <div className="img">
+          <img src={`${import.meta.env.BASE_URL}/img/object/${props.id}.png`} />
+        </div>
+        <div className="txt">
+          <Typography variant="body2">
+            {props.material}
+          </Typography>
+        </div>
+      </div>
+      <div className="dots"></div>
+      <div className="qty">
+        <Typography variant="body2">
+          {props.value}
+          {strike && <CheckCircleIcon sx={{width: 16, float: 'right', position: 'relative', bottom: 2, fill: '#067ff0'}}/>}
+        </Typography>
+      </div>
+    </SimpleRow>
+  );
+};
+
 const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
   const [buy, setBuy] = React.useState<boolean>();
   const { config } = React.useContext(CalculatorConfigContext);
@@ -108,24 +141,11 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
           const material = _.find(materialCsv, {material: key});
           if (!material) return null;
           return (
-            <SimpleRow key={key}>
-              <div>
-                <div className="img">
-                  <img src={`${import.meta.env.BASE_URL}/img/object/${zeroMask(material.id)}.png`} />
-                </div>
-                <div className="txt">
-                  <Typography variant="body2">
-                    {material.material}
-                  </Typography>
-                </div>
-              </div>
-              <div className="dots"></div>
-              <div className="qty">
-                <Typography variant="body2">
-                  {p.material && p.material[key]}
-                </Typography>
-              </div>
-            </SimpleRow>
+            <SimpleChecklist 
+              material={material.material}
+              id={zeroMask(material.id)}
+              value={p.material && p.material[key]}
+            />
           );
         })}
       </div>

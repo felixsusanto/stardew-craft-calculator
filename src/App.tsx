@@ -44,7 +44,7 @@ const CssTextField = styled(TextField)({
 });
 
 export const Container = styled.div`
-  max-width: 620px;
+  max-width: 700px;
   padding: 0 20px;
   margin: 0 auto;
 `;

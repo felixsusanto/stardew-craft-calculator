@@ -14,7 +14,7 @@ const FooterContainer = styled.footer`
 const Footer = () => {
   return (
     <FooterContainer>
-      Stardew Valley Craftables Calculator - For bug report please report issue <a href="https://github.com/felixsusanto/devchallenges.io/issues">here</a><br />
+      Stardew Valley Craftables Calculator - For bug report please report issue <a href="https://github.com/felixsusanto/stardew-craft-calculator/issues">here</a><br />
       Stardew Valley is developed by <a href="http://twitter.com/concernedape">ConcernedApe</a>
     </FooterContainer>
   );
