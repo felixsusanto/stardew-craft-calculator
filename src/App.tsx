@@ -158,7 +158,7 @@ function App() {
         <ThreeRowFlex>
           <Header>
             <Autocomplete<Craftable>
-              options={_.sortBy(craftableCsv, ['group', 'label'])}
+              options={_.sortBy(craftableCsv, ['group', 'priority', 'label'])}
               groupBy={(option) => option.group}
               onChange={(e, v) => {
                 v && setFilter((filterArr) => {

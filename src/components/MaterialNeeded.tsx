@@ -142,6 +142,7 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
           if (!material) return null;
           return (
             <SimpleChecklist 
+              key={key}
               material={material.material}
               id={zeroMask(material.id)}
               value={p.material && p.material[key]}

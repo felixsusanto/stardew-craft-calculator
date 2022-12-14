@@ -2,8 +2,9 @@ import _ from 'lodash';
 import materialCsv from './material.csv';
 import * as Papa from 'papaparse';
 
+type InputData = (Record<string, number | string>)[];
 
-const newData: (Record<string, number | string>)[] = [
+export const newData: InputData = [
   {
     label: "Bone Mill",
     "Bone Fragment": 10,
@@ -183,7 +184,62 @@ const newData: (Record<string, number | string>)[] = [
   },
 ];
 
-export const generateNewItems = () => {
+export const newestData: InputData = [
+  {
+    label: "Warp Totem: Desert",
+    "Iridium Bar": 10,
+    "Hardwood": 2,
+    "Coconut": 1,
+    "Iridium Ore": 4,
+  },
+  {
+    label: "Warp Totem: Island",
+    "Hardwood": 5,
+    "Dragon Tooth": 1,
+    "Ginger": 1,
+  },
+  {
+    label: "Magic Bait",
+    "Radioactive Ore": 1,
+    "Bug Meat": 3,
+  },
+  {
+    label: "Deluxe Fertilizer",
+    "Iridium Bar": 1,
+    "Sap": 4,
+  },
+  {
+    label: "Hyper Speed-Gro",
+    "Radioactive Ore": 1,
+    "Bone Fragment": 3,
+    "Solar Essence": 1,
+  },
+  {
+    label: "Deluxe Retaining Soil",
+    "Stone": 5,
+    "Fiber": 3,
+    "Clay": 1,
+  }
+]
+
+const getKeys = (d: InputData) => {
+  const k = d
+    .map(obj => {
+      const { label, ...rest } = obj;
+      return Object.keys(rest); 
+    })
+    .reduce((acc, curr) => [...acc, ...curr])
+  ;
+  const unique = [...(new Set(k)).values()]
+    .reduce((acc, curr) => {
+      acc[curr] = 0;
+      return acc;
+    }, {} as Record<string, 0>)
+  ;
+  return unique;
+}
+
+export const generateNewItems = (d: InputData) => {
   const fields = materialCsv
     .map(v => v.material)
   ;
@@ -192,10 +248,14 @@ export const generateNewItems = () => {
       return acc;
     }, {} as Record<string, number>)
   ;
-  const res = newData.map(obj => {
+  const basePlus = {...base, ...getKeys(d)};
+
+  const res = d.map(obj => {
+    const { label, ...rest } = obj;
     return {
-      ...base,
-      ...obj,
+      label,
+      ...basePlus,
+      ...rest,
     };
   });
   const csv = Papa.unparse(res, { header: true, delimiter: '\t' });
