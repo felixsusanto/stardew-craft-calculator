@@ -12,6 +12,7 @@ import { zeroMask } from './CraftableComponent';
 import _ from 'lodash';
 import CalculatorConfigContext, { Year, Season } from '../context/CalculatorConfigContext';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { MaterialSprite } from './CraftableSprite';
 
 type MaterialNeededProps = {
   material?: Material;
@@ -101,7 +102,7 @@ const SimpleChecklist: React.FC<SimpleChecklistProps> = (props) => {
     <SimpleRow>
       <div onClick={() => setStrike(!strike)} style={{ cursor: 'pointer' }}>
         <div className="img">
-          <img src={`${import.meta.env.BASE_URL}/img/object/${props.id}.png`} />
+          <MaterialSprite id={props.id} />
         </div>
         <div className="txt">
           <Typography variant="body2">
@@ -175,7 +176,7 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
                       <SimpleRow key={key}>
                         <div>
                           <div className="img">
-                            <img src={`${import.meta.env.BASE_URL}/img/object/${zeroMask(material.id)}.png`} />
+                            <MaterialSprite id={zeroMask(material.id)}/>
                           </div>
                           <div className="txt">
                             <Typography variant="body2">

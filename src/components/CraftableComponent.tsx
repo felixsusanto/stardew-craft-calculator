@@ -11,6 +11,7 @@ import { CraftableBase, Material } from '../csv/craftables.csv';
 import DataContext, { InitialData } from '../context/InitialDataContext';
 import MaterialNeeded from './MaterialNeeded';
 import { generateNewItems, newData } from '../csv/utilities';
+import CraftableSprite from './CraftableSprite';
 
 (window as any).newDataTest = generateNewItems(newData);
 
@@ -95,9 +96,11 @@ const CraftableComponent: React.FC<CraftableProps> = (props) => {
     >
       <TitleCard>
         <div className="img">
-          <img src={`${import.meta.env.BASE_URL}/img/craftables/${zeroMask(props.id)}.png`} 
-            style={{ width: 32 }}
+          <CraftableSprite 
+            id={zeroMask(props.id)}
+            scale={2}
           />
+          
         </div>
         <div className="text">
           <Typography variant="h6" gutterBottom>

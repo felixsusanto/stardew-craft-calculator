@@ -16,6 +16,7 @@ import Fab from '@mui/material/Fab';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import Header from './components/Header'; 
 import mainLogo from './assets/main_logo.png';
+import CraftableSprite from './components/CraftableSprite';
 
 const CssTextField = styled(TextField)({
   '& label.Mui-focused': {
@@ -171,12 +172,7 @@ function App() {
               renderInput={(params) => <CssTextField {...params} size="small" label="Add Craftables"/>}
               renderOption={(props, option) => (
                 <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 }, height: 48 }} {...props}>
-                  <img
-                    loading="lazy"
-                    width="16"
-                    src={`${import.meta.env.BASE_URL}/img/craftables/${zeroMask(option.id)}.png`}
-                    alt=""
-                  />
+                  <CraftableSprite id={zeroMask(option.id)} style={{ marginRight: 10}}/>
                   {option.label}
                 </Box>
               )}
