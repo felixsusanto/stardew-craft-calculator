@@ -97,10 +97,10 @@ type SimpleChecklistProps = {
   value?: number;
 };
 const SimpleChecklist: React.FC<SimpleChecklistProps> = (props) => {
-  const [strike, setStrike] = React.useState(false);
+  const [check, setCheck] = React.useState(false);
   return (
     <SimpleRow>
-      <div onClick={() => setStrike(!strike)} style={{ cursor: 'pointer' }}>
+      <div onClick={() => setCheck(!check)} style={{ cursor: 'pointer' }}>
         <div className="img">
           <MaterialSprite id={props.id} />
         </div>
@@ -114,7 +114,15 @@ const SimpleChecklist: React.FC<SimpleChecklistProps> = (props) => {
       <div className="qty">
         <Typography variant="body2">
           {props.value}
-          {strike && <CheckCircleIcon sx={{width: 16, float: 'right', position: 'relative', bottom: 2, fill: '#067ff0'}}/>}
+          <CheckCircleIcon sx={{
+            width: 16,
+            float: 'right',
+            position: 'relative',
+            bottom: 2,
+            marginLeft: '3px',
+            fill: '#067ff0',
+            visibility: check ? 'visible' : 'hidden'
+          }}/>
         </Typography>
       </div>
     </SimpleRow>
