@@ -151,7 +151,7 @@ export const newData: InputData = [
   },
   {
     label: "Tea Sapling",
-    "Wild Seeds (Any)": 2,
+    "Wild Seeds(any)": 2,
     "Fiber": 5,
     "Wood": 5,
   },

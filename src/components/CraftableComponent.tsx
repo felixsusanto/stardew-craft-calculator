@@ -10,7 +10,9 @@ import styled from 'styled-components';
 import { CraftableBase, Material } from '../csv/craftables.csv';
 import DataContext, { InitialData } from '../context/InitialDataContext';
 import MaterialNeeded from './MaterialNeeded';
+import { generateNewItems, newData } from '../csv/utilities';
 
+(window as any).newDataTest = generateNewItems(newData);
 
 export const zeroMask = (x: number) => {
   if (x < 10) {
