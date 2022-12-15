@@ -6,632 +6,632 @@
   "images": [
     {
       "name": "008.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/008.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/008.png",
       "folder": ""
     },
     {
       "name": "009.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/009.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/009.png",
       "folder": ""
     },
     {
       "name": "010.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/010.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/010.png",
       "folder": ""
     },
     {
       "name": "012.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/012.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/012.png",
       "folder": ""
     },
     {
       "name": "013.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/013.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/013.png",
       "folder": ""
     },
     {
       "name": "015.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/015.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/015.png",
       "folder": ""
     },
     {
       "name": "016.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/016.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/016.png",
       "folder": ""
     },
     {
       "name": "017.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/017.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/017.png",
       "folder": ""
     },
     {
       "name": "019.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/019.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/019.png",
       "folder": ""
     },
     {
       "name": "020.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/020.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/020.png",
       "folder": ""
     },
     {
       "name": "021.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/021.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/021.png",
       "folder": ""
     },
     {
       "name": "024.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/024.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/024.png",
       "folder": ""
     },
     {
       "name": "025.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/025.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/025.png",
       "folder": ""
     },
     {
       "name": "037.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/037.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/037.png",
       "folder": ""
     },
     {
       "name": "038.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/038.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/038.png",
       "folder": ""
     },
     {
       "name": "039.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/039.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/039.png",
       "folder": ""
     },
     {
       "name": "062.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/062.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/062.png",
       "folder": ""
     },
     {
       "name": "071.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/071.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/071.png",
       "folder": ""
     },
     {
       "name": "083.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/083.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/083.png",
       "folder": ""
     },
     {
       "name": "090.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/090.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/090.png",
       "folder": ""
     },
     {
       "name": "093.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/093.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/093.png",
       "folder": ""
     },
     {
       "name": "099.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/099.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/099.png",
       "folder": ""
     },
     {
       "name": "105.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/105.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/105.png",
       "folder": ""
     },
     {
       "name": "108.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/108.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/108.png",
       "folder": ""
     },
     {
       "name": "114.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/114.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/114.png",
       "folder": ""
     },
     {
       "name": "130.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/130.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/130.png",
       "folder": ""
     },
     {
       "name": "143.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/143.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/143.png",
       "folder": ""
     },
     {
       "name": "144.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/144.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/144.png",
       "folder": ""
     },
     {
       "name": "145.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/145.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/145.png",
       "folder": ""
     },
     {
       "name": "146.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/146.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/146.png",
       "folder": ""
     },
     {
       "name": "147.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/147.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/147.png",
       "folder": ""
     },
     {
       "name": "148.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/148.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/148.png",
       "folder": ""
     },
     {
       "name": "149.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/149.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/149.png",
       "folder": ""
     },
     {
       "name": "150.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/150.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/150.png",
       "folder": ""
     },
     {
       "name": "151.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/151.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/151.png",
       "folder": ""
     },
     {
       "name": "152.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/152.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/152.png",
       "folder": ""
     },
     {
       "name": "153.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/153.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/153.png",
       "folder": ""
     },
     {
       "name": "154.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/154.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/154.png",
       "folder": ""
     },
     {
       "name": "156.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/156.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/156.png",
       "folder": ""
     },
     {
       "name": "158.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/158.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/158.png",
       "folder": ""
     },
     {
       "name": "163.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/163.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/163.png",
       "folder": ""
     },
     {
       "name": "167.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/167.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/167.png",
       "folder": ""
     },
     {
       "name": "182.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/182.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/182.png",
       "folder": ""
     },
     {
       "name": "209.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/209.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/209.png",
       "folder": ""
     },
     {
       "name": "231.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/231.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/231.png",
       "folder": ""
     },
     {
       "name": "232.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/232.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/232.png",
       "folder": ""
     },
     {
       "name": "238.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/238.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/238.png",
       "folder": ""
     },
     {
       "name": "239.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/239.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/239.png",
       "folder": ""
     },
     {
       "name": "251.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/251.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/251.png",
       "folder": ""
     },
     {
       "name": "254.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/254.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/254.png",
       "folder": ""
     },
     {
       "name": "261.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/261.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/261.png",
       "folder": ""
     },
     {
       "name": "264.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/264.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/264.png",
       "folder": ""
     },
     {
       "name": "286.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/286.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/286.png",
       "folder": ""
     },
     {
       "name": "287.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/287.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/287.png",
       "folder": ""
     },
     {
       "name": "288.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/288.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/288.png",
       "folder": ""
     },
     {
       "name": "298.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/298.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/298.png",
       "folder": ""
     },
     {
       "name": "322.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/322.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/322.png",
       "folder": ""
     },
     {
       "name": "323.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/323.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/323.png",
       "folder": ""
     },
     {
       "name": "324.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/324.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/324.png",
       "folder": ""
     },
     {
       "name": "325.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/325.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/325.png",
       "folder": ""
     },
     {
       "name": "328.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/328.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/328.png",
       "folder": ""
     },
     {
       "name": "329.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/329.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/329.png",
       "folder": ""
     },
     {
       "name": "331.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/331.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/331.png",
       "folder": ""
     },
     {
       "name": "333.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/333.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/333.png",
       "folder": ""
     },
     {
       "name": "335.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/335.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/335.png",
       "folder": ""
     },
     {
       "name": "336.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/336.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/336.png",
       "folder": ""
     },
     {
       "name": "368.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/368.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/368.png",
       "folder": ""
     },
     {
       "name": "369.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/369.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/369.png",
       "folder": ""
     },
     {
       "name": "370.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/370.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/370.png",
       "folder": ""
     },
     {
       "name": "371.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/371.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/371.png",
       "folder": ""
     },
     {
       "name": "401.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/401.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/401.png",
       "folder": ""
     },
     {
       "name": "403.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/403.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/403.png",
       "folder": ""
     },
     {
       "name": "405.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/405.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/405.png",
       "folder": ""
     },
     {
       "name": "407.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/407.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/407.png",
       "folder": ""
     },
     {
       "name": "409.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/409.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/409.png",
       "folder": ""
     },
     {
       "name": "411.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/411.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/411.png",
       "folder": ""
     },
     {
       "name": "415.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/415.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/415.png",
       "folder": ""
     },
     {
       "name": "441.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/441.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/441.png",
       "folder": ""
     },
     {
       "name": "463.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/463.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/463.png",
       "folder": ""
     },
     {
       "name": "464.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/464.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/464.png",
       "folder": ""
     },
     {
       "name": "465.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/465.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/465.png",
       "folder": ""
     },
     {
       "name": "466.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/466.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/466.png",
       "folder": ""
     },
     {
       "name": "495.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/495.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/495.png",
       "folder": ""
     },
     {
       "name": "496.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/496.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/496.png",
       "folder": ""
     },
     {
       "name": "497.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/497.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/497.png",
       "folder": ""
     },
     {
       "name": "498.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/498.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/498.png",
       "folder": ""
     },
     {
       "name": "499.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/499.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/499.png",
       "folder": ""
     },
     {
       "name": "521.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/521.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/521.png",
       "folder": ""
     },
     {
       "name": "524.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/524.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/524.png",
       "folder": ""
     },
     {
       "name": "525.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/525.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/525.png",
       "folder": ""
     },
     {
       "name": "527.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/527.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/527.png",
       "folder": ""
     },
     {
       "name": "599.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/599.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/599.png",
       "folder": ""
     },
     {
       "name": "621.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/621.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/621.png",
       "folder": ""
     },
     {
       "name": "645.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/645.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/645.png",
       "folder": ""
     },
     {
       "name": "681.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/681.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/681.png",
       "folder": ""
     },
     {
       "name": "685.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/685.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/685.png",
       "folder": ""
     },
     {
       "name": "686.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/686.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/686.png",
       "folder": ""
     },
     {
       "name": "687.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/687.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/687.png",
       "folder": ""
     },
     {
       "name": "688.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/688.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/688.png",
       "folder": ""
     },
     {
       "name": "689.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/689.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/689.png",
       "folder": ""
     },
     {
       "name": "690.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/690.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/690.png",
       "folder": ""
     },
     {
       "name": "691.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/691.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/691.png",
       "folder": ""
     },
     {
       "name": "693.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/693.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/693.png",
       "folder": ""
     },
     {
       "name": "694.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/694.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/694.png",
       "folder": ""
     },
     {
       "name": "695.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/695.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/695.png",
       "folder": ""
     },
     {
       "name": "703.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/703.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/703.png",
       "folder": ""
     },
     {
       "name": "710.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/710.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/710.png",
       "folder": ""
     },
     {
       "name": "746.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/746.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/746.png",
       "folder": ""
     },
     {
       "name": "772.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/772.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/772.png",
       "folder": ""
     },
     {
       "name": "773.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/773.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/773.png",
       "folder": ""
     },
     {
       "name": "774.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/774.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/774.png",
       "folder": ""
     },
     {
       "name": "801.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/801.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/801.png",
       "folder": ""
     },
     {
       "name": "805.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/805.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/805.png",
       "folder": ""
     },
     {
       "name": "839.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/839.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/839.png",
       "folder": ""
     },
     {
       "name": "872.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/872.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/872.png",
       "folder": ""
     },
     {
       "name": "874.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/874.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/874.png",
       "folder": ""
     },
     {
       "name": "877.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/877.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/877.png",
       "folder": ""
     },
     {
       "name": "879.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/879.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/879.png",
       "folder": ""
     },
     {
       "name": "885.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/885.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/885.png",
       "folder": ""
     },
     {
       "name": "886.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/886.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/886.png",
       "folder": ""
     },
     {
       "name": "888.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/888.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/888.png",
       "folder": ""
     },
     {
       "name": "908.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/908.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/908.png",
       "folder": ""
     },
     {
       "name": "918.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/918.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/918.png",
       "folder": ""
     },
     {
       "name": "919.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/919.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/919.png",
       "folder": ""
     },
     {
       "name": "920.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/920.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/920.png",
       "folder": ""
     },
     {
       "name": "926.png",
-      "path": "E:/Git/stardew-craft-calculator/public/img/craftables/926.png",
+      "path": "E:/Git/stardew-craft-calculator/src/assets/craftables/926.png",
       "folder": ""
     }
   ],

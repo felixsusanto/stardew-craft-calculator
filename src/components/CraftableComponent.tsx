@@ -13,7 +13,7 @@ import MaterialNeeded from './MaterialNeeded';
 import { generateNewItems, newData } from '../csv/utilities';
 import CraftableSprite from './CraftableSprite';
 
-(window as any).newDataTest = generateNewItems(newData);
+const MAX_VALUE = 9999;
 
 export const zeroMask = (x: number) => {
   if (x < 10) {
@@ -123,7 +123,8 @@ const CraftableComponent: React.FC<CraftableProps> = (props) => {
             value={goal} 
             onChange={e => {
               const isNumber = !isNaN(+e.currentTarget.value);
-              isNumber && setGoal(+e.currentTarget.value);
+              const value = +e.currentTarget.value;
+              isNumber && value <= MAX_VALUE && setGoal(value);
             }}
             InputLabelProps={{ shrink: true }}
           />
@@ -137,7 +138,8 @@ const CraftableComponent: React.FC<CraftableProps> = (props) => {
             value={possession} 
             onChange={e => {
               const isNumber = !isNaN(+e.currentTarget.value);
-              isNumber && setPossession(+e.currentTarget.value);
+              const value = +e.currentTarget.value;
+              isNumber && value <= MAX_VALUE && setPossession(value);
             }}
             InputLabelProps={{ shrink: true }}
           />

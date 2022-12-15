@@ -12,7 +12,7 @@ import { zeroMask } from './CraftableComponent';
 import _ from 'lodash';
 import CalculatorConfigContext, { Year, Season } from '../context/CalculatorConfigContext';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { MaterialSprite } from './CraftableSprite';
+import { MaterialSprite, SellerSprite } from './CraftableSprite';
 
 type MaterialNeededProps = {
   material?: Material;
@@ -31,6 +31,7 @@ const SimpleRow = styled.div`
   .img {
     padding-right: 4px;
     display: inline-block;
+    line-height: 0;
   }
   .txt {
     display: inline-block;
@@ -92,19 +93,17 @@ const BuySection = styled.div`
 `;
 
 type SimpleChecklistProps = {
-  id: string;
   material: string;
   value?: number;
+  children?: React.ReactNode;
 };
 const SimpleChecklist: React.FC<SimpleChecklistProps> = (props) => {
   const [check, setCheck] = React.useState(false);
   return (
     <SimpleRow>
-      <div onClick={() => setCheck(!check)} style={{ cursor: 'pointer' }}>
-        <div className="img">
-          <MaterialSprite id={props.id} />
-        </div>
-        <div className="txt">
+      <div>
+        {props.children}
+        <div className="txt" onClick={() => setCheck(!check)} style={{ cursor: 'pointer' }}>
           <Typography variant="body2">
             {props.material}
           </Typography>
@@ -140,6 +139,7 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
   const soldMaterial = _.filter(materialCsv, v => v.price !== '')
     .map(v => v.material)
   ;
+  console.log(soldMaterial, 'soldMaterial');
   const intersection = _.intersection(soldMaterial, keys);
   const buyable = !!intersection.length;
   
@@ -153,9 +153,14 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
             <SimpleChecklist 
               key={key}
               material={material.material}
-              id={zeroMask(material.id)}
               value={p.material && p.material[key]}
-            />
+            >
+              <div className="img">
+                <a href={material.link} target="_blank">
+                  <MaterialSprite id={zeroMask(material.id)} />
+                </a>
+              </div>
+            </SimpleChecklist>
           );
         })}
       </div>
@@ -182,7 +187,7 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
                     const qty = (p.material!)[key];
                     return (
                       <SimpleRow key={key}>
-                        <div>
+                        <div style={{display: 'flex', alignItems: 'center'}}>
                           <div className="img">
                             <MaterialSprite id={zeroMask(material.id)}/>
                           </div>
@@ -194,7 +199,7 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
                         </div>
                         <div className="dots" />
                         <div className="qty">
-                          <Typography variant="body2">
+                          <Typography variant="body2" sx={{display: 'inline-block'}}>
                             { priceCat.type === 'fixed' && 
                               <span><b>{numeral(priceCat.price * qty).format('0,0')}</b> G</span>
                             }
@@ -231,6 +236,9 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
                                 })
                             }
                           </Typography>
+                          <SellerSprite id={material.seller} scale={1}
+                            style={{display: 'inline-block'}}
+                          />
                         </div>
                       </SimpleRow>
                     );
