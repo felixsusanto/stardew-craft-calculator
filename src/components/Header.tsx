@@ -5,9 +5,12 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import SettingsIcon from '@mui/icons-material/Settings';
+import InfoIcon from '@mui/icons-material/Info';
 import { Container } from '../App';
-import { Typography } from '@mui/material';
+import { Box, Paper, Typography } from '@mui/material';
 import CalculatorConfigContext, { Season, Year } from '../context/CalculatorConfigContext';
+import CraftingMaterials from '../components/CraftingMaterials';
+import Modal from '@mui/material/Modal';
 
 type HeaderProps = {
   children: React.ReactNode;
@@ -58,6 +61,8 @@ const Row = styled.div`
 const Header: React.FC<HeaderProps> = (props) => {
   const [show, setShow] = React.useState<boolean>(false);
   const { config, setConfig } = React.useContext(CalculatorConfigContext);
+  const [openModal, setOpenModal] = React.useState<boolean>(false);
+
   return (
     <div style={{background: 'rgba(21, 71, 148, 0.8)', padding: '10px 0', marginBottom: '10px'}}>
       <Container>
@@ -69,6 +74,9 @@ const Header: React.FC<HeaderProps> = (props) => {
             onClick={() => setShow(!show)}
           >
             <SettingsIcon sx={{ color: '#fff'}}/>
+          </div>
+          <div className="icon" onClick={() => {setOpenModal(true)}}>
+            <InfoIcon sx={{ color: '#fff'}}/>
           </div>
         </Row>
         { show && (
@@ -111,6 +119,14 @@ const Header: React.FC<HeaderProps> = (props) => {
           </Row>
         )}
       </Container>
+      <Modal
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+      >
+        <Paper sx={{p: 3, maxWidth: 600, margin: '0 auto', mt: 2, bgColor: '#fff'}}>
+          <CraftingMaterials />
+        </Paper>
+      </Modal>
     </div>
   );
 };

@@ -18,6 +18,7 @@ import Header from './components/Header';
 import mainLogo from './assets/main_logo.png';
 import CraftableSprite from './components/CraftableSprite';
 
+
 const CssTextField = styled(TextField)({
   '& label.Mui-focused': {
     color: '#fff',
@@ -90,7 +91,6 @@ function App() {
   const [recalculate, setRecalculate] = useState<boolean>();
   const [total, setTotal] = useState<Material>();
   const [ctx, setCtx] = useState<DataContextType>({});
-
   const [config, setConfig] = useState<CalculatorConfig>();
 
   React.useEffect(() => {
@@ -233,6 +233,7 @@ function App() {
           <Footer />
         </ThreeRowFlex>
       </CalculatorConfigContext.Provider>
+      
       <div style={{ position: 'fixed', right: 20, bottom: 20}}>
         <Fab color="primary" aria-label="add">
           <ArrowUpwardIcon />

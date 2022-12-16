@@ -162,7 +162,7 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
               </div>
             </SimpleChecklist>
           );
-        })}
+        })} 
       </div>
       { buyable && (
         <BuySection>
