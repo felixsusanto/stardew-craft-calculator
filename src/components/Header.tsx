@@ -123,7 +123,7 @@ const Header: React.FC<HeaderProps> = (props) => {
         open={openModal}
         onClose={() => setOpenModal(false)}
       >
-        <Paper sx={{p: 3, maxWidth: 600, margin: '0 auto', mt: 2, bgColor: '#fff'}}>
+        <Paper sx={{p: 3, maxWidth: 1200, margin: '0 auto', mt: 2, bgColor: '#fff'}}>
           <CraftingMaterials />
         </Paper>
       </Modal>
