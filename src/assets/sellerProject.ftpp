@@ -10,12 +10,12 @@
   "packOptions": {
     "textureName": "texture",
     "textureFormat": "png",
-    "removeFileExtension": true,
+    "removeFileExtension": false,
     "prependFolderName": true,
     "base64Export": false,
     "tinify": false,
     "tinifyKey": "",
-    "scale": 1,
+    "scale": 0.5,
     "filter": "none",
     "exporter": "css (modern)",
     "fileName": "pack-result",
@@ -26,12 +26,12 @@
     "powerOfTwo": false,
     "padding": 0,
     "extrude": 0,
-    "allowRotation": true,
-    "allowTrim": true,
+    "allowRotation": false,
+    "allowTrim": false,
     "trimMode": "trim",
     "alphaThreshold": "0",
     "detectIdentical": true,
-    "packer": "MaxRectsBin",
-    "packerMethod": "BestShortSideFit"
+    "packer": "MaxRectsPacker",
+    "packerMethod": "Smart"
   }
 }

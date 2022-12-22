@@ -4,8 +4,10 @@
    http://free-tex-packer.com
    ---------------------------
 */
-.seller-krobus { display:inline-block;overflow:hidden;background:url(texture.png) no-repeat -0px -0px;width:12px;height:15px;margin-left:2px;margin-top:0px }
-.seller-robin { display:inline-block;overflow:hidden;background:url(texture.png) no-repeat -0px -15px;width:13px;height:13px;margin-left:2px;margin-top:1px }
-.seller-dwarf { display:inline-block;overflow:hidden;background:url(texture.png) no-repeat -12px -0px;width:12px;height:13px;margin-left:2px;margin-top:1.5px }
-.seller-clint { display:inline-block;overflow:hidden;background:url(texture.png) no-repeat -0px -28px;width:12px;height:12px;margin-left:2px;margin-top:3px }
-.seller-pierre { display:inline-block;overflow:hidden;background:url(texture.png) no-repeat -0px -40px;width:12px;height:12px;margin-left:2px;margin-top:2px }
+.seller-clint { display:inline-block;overflow:hidden;background:url(texture.png) no-repeat -0px -0px;width:16px;height:16px; }
+.seller-dwarf { display:inline-block;overflow:hidden;background:url(texture.png) no-repeat -16px -0px;width:16px;height:16px; }
+.seller-krobus { display:inline-block;overflow:hidden;background:url(texture.png) no-repeat -0px -16px;width:16px;height:16px; }
+.seller-pierre { display:inline-block;overflow:hidden;background:url(texture.png) no-repeat -16px -16px;width:16px;height:16px; }
+.seller-qi { display:inline-block;overflow:hidden;background:url(texture.png) no-repeat -32px -0px;width:16px;height:16px; }
+.seller-robin { display:inline-block;overflow:hidden;background:url(texture.png) no-repeat -32px -16px;width:16px;height:16px; }
+.seller-willy { display:inline-block;overflow:hidden;background:url(texture.png) no-repeat -0px -32px;width:16px;height:16px; }

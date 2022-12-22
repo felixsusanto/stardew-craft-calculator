@@ -11,7 +11,7 @@ import { CraftableBase, Material } from '../csv/craftables.csv';
 import DataContext, { InitialData } from '../context/InitialDataContext';
 import MaterialNeeded from './MaterialNeeded';
 import { generateNewItems, newData } from '../csv/utilities';
-import CraftableSprite from './CraftableSprite';
+import CraftableSprite, { SellerSprite } from './CraftableSprite';
 
 const MAX_VALUE = 9999;
 
@@ -24,7 +24,7 @@ export const zeroMask = (x: number) => {
   return x + '';
 }
 
-type CraftableProps = Omit<CraftableBase, 'group'> & {
+type CraftableProps = Omit<CraftableBase, 'group'|'priority'> & {
   material: Material;
   onQtyChange: (v: Material, d: InitialData) => void;
   onClose: () => void;
@@ -70,7 +70,8 @@ const CraftableComponent: React.FC<CraftableProps> = (props) => {
     const filtered = _.omitBy(clone, (v) => v === 0);
     props.onQtyChange(clone, {
       label: props.label,
-      goal, possession
+      goal, 
+      possession
     });
     setMaterialNeeded(filtered);
   }, [needed]);
@@ -154,10 +155,22 @@ const CraftableComponent: React.FC<CraftableProps> = (props) => {
           />
         </Grid>
       </Grid>
+      <Purchasable data={props.purchasable} />
+      
       <div style={{marginTop: 10}}>
         <MaterialNeeded material={materialNeeded} />
       </div>
     </Paper>
+  );
+};
+
+const Purchasable: React.FC<{data: string}> = (props) => {
+  if (props.data === '') return null;
+  const [seller, value, currency, qty] = props.data.split('/');
+  return (
+    <Typography variant="body2" sx={{mt:1}}>
+      <SellerSprite id={ seller }/> selling for {value} {currency} / {qty ? `${qty} pcs` : 'pc'}
+    </Typography>
   );
 };
 

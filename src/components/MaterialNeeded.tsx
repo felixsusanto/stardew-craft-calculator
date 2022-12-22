@@ -139,7 +139,6 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
   const soldMaterial = _.filter(materialCsv, v => v.price !== '')
     .map(v => v.material)
   ;
-  console.log(soldMaterial, 'soldMaterial');
   const intersection = _.intersection(soldMaterial, keys);
   const buyable = !!intersection.length;
   

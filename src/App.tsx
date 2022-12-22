@@ -9,7 +9,6 @@ import TotalMaterial from './components/TotalMaterial';
 import DataContext, { DataContextType, InitialData } from './context/InitialDataContext';
 import CalculatorConfigContext, { CalculatorConfigType, CalculatorConfig, Season, Year } from './context/CalculatorConfigContext';
 import { Box } from '@mui/material';
-export type Craftable = CraftableBase & Material;
 import styled from 'styled-components';
 import Footer from './components/Footer';
 import Fab from '@mui/material/Fab';
@@ -18,7 +17,7 @@ import Header from './components/Header';
 import mainLogo from './assets/main_logo.png';
 import CraftableSprite from './components/CraftableSprite';
 
-
+export type Craftable = CraftableBase & Material;
 const CssTextField = styled(TextField)({
   '& label.Mui-focused': {
     color: '#fff',
@@ -83,6 +82,8 @@ const defaultConfigValue = {
   year: Year.EMPTY
 };
 
+console.log(craftableCsv);
+
 function App() {
   const calculateRef = React.useRef(new Map<string, Material>());
   const initDataRef = React.useRef(new Map<string, InitialData>());
@@ -128,10 +129,12 @@ function App() {
           .forEach((key) => {
             const accVal = acc[key];
             const currVal = curr[key];
-            if (!accVal) {
-              acc[key] = currVal;
-            } else {
-              acc[key] = accVal + currVal;
+            if (!isNaN(currVal)) {
+              if (!accVal) {
+                acc[key] = currVal;
+              } else {
+                acc[key] = accVal + currVal;
+              }
             }
           })
         ;
@@ -199,12 +202,20 @@ function App() {
                   if (!craftable) return null;
                   const craft = _.find(craftable, { label }) as Craftable;
                   if (!craft) return null;
-                  const {id, label: name, ...rest} = craft;
+                  const {
+                    id, 
+                    label: name, 
+                    group,
+                    purchasable,
+                    priority,
+                    ...rest
+                  } = craft;
                   return (
                     <CraftableComponent 
                       key={id}
                       label={name}
                       id={id}
+                      purchasable={purchasable}
                       material={rest}
                       onClose={() => {
                         setFilter((labelArr) => {
@@ -219,7 +230,7 @@ function App() {
                         })
                       }}
                       onQtyChange={(m, d) => {
-                        const {group, season, ...rest} = m;
+                        const {group, season, purchasable, priority, ...rest} = m;
                         calculateRef.current.set(name, rest);
                         initDataRef.current.set(d.label, d);
                         setRecalculate(!recalculate);
