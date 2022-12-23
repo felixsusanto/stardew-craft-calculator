@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
 import _ from 'lodash';
 import CssBaseline from '@mui/material/CssBaseline';
-import craftableCsv, { CraftableBase, Material } from './csv/craftables.csv';
+import craftableCsv, { CraftableBase, Material } from '../csv/craftables.csv';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import CraftableComponent, { zeroMask } from './components/CraftableComponent';
-import TotalMaterial from './components/TotalMaterial';
-import DataContext, { DataContextType, InitialData } from './context/InitialDataContext';
-import CalculatorConfigContext, { CalculatorConfigType, CalculatorConfig, Season, Year } from './context/CalculatorConfigContext';
+import CraftableComponent, { zeroMask } from '../components/CraftableComponent';
+import TotalMaterial from '../components/TotalMaterial';
+import DataContext, { DataContextType, InitialData } from '../context/InitialDataContext';
+import CalculatorConfigContext, { CalculatorConfigType, CalculatorConfig, Season, Year } from '../context/CalculatorConfigContext';
 import { Box } from '@mui/material';
 import styled from 'styled-components';
-import Footer from './components/Footer';
+import Footer from '../components/Footer';
 import Fab from '@mui/material/Fab';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import Header from './components/Header'; 
-import mainLogo from './assets/main_logo.png';
-import CraftableSprite from './components/CraftableSprite';
+import Header from '../components/Header'; 
+import mainLogo from '../assets/main_logo.png';
+import CraftableSprite from '../components/CraftableSprite';
+import { Outlet } from "react-router-dom";
+import NavBar from '../components/NavBar';
 
 export type Craftable = CraftableBase & Material;
 const CssTextField = styled(TextField)({
@@ -160,87 +162,11 @@ function App() {
         }}
       >
         <ThreeRowFlex>
-          <Header>
-            <Autocomplete<Craftable>
-              options={_.sortBy(craftableCsv, ['group', 'priority', 'label'])}
-              groupBy={(option) => option.group}
-              onChange={(e, v) => {
-                v && setFilter((filterArr) => {
-                  if (!filterArr.some(val => v.label === val)) {
-                    return [...filterArr, v.label];
-                  }
-                  return filterArr;
-                });
-              }}
-              renderInput={(params) => <CssTextField {...params} size="small" label="Add Craftables"/>}
-              renderOption={(props, option) => (
-                <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 }, height: 48 }} {...props}>
-                  <CraftableSprite id={zeroMask(option.id)} style={{ marginRight: 10}}/>
-                  {option.label}
-                </Box>
-              )}
-            />
-          </Header>
+          <NavBar />
           <div className="mid">
-            <Container>
-              { filter.length > 1 && (
-                <TotalMaterial total={_.omitBy(total, (v) => v === 0)} />
-              )}
-              { !filter.length && (
-                <Splash>
-                  <div className="title">
-                    Craftables&nbsp;Calculator
-                  </div>
-                  <img 
-                    src={mainLogo} 
-                    alt="Stardew Valley" 
-                  />
-                </Splash>
-              )}
-              <div className="card">
-                { filter.map((label) => {
-                  if (!craftable) return null;
-                  const craft = _.find(craftable, { label }) as Craftable;
-                  if (!craft) return null;
-                  const {
-                    id, 
-                    label: name, 
-                    group,
-                    purchasable,
-                    priority,
-                    ...rest
-                  } = craft;
-                  return (
-                    <CraftableComponent 
-                      key={id}
-                      label={name}
-                      id={id}
-                      purchasable={purchasable}
-                      material={rest}
-                      onClose={() => {
-                        setFilter((labelArr) => {
-                          const clone = [...labelArr];
-                          const removed = _.remove(clone, v => v === name);
-                          if (removed.length) {
-                            calculateRef.current.delete(name);
-                            initDataRef.current.delete(name);
-                            setRecalculate(!recalculate);
-                          }
-                          return clone;
-                        })
-                      }}
-                      onQtyChange={(m, d) => {
-                        const {group, season, purchasable, priority, ...rest} = m;
-                        calculateRef.current.set(name, rest);
-                        initDataRef.current.set(d.label, d);
-                        setRecalculate(!recalculate);
-                      }}
-                    />
-                  );
-                })}
-              </div>
-            </Container>
+            <Outlet />
           </div>
+          <Footer />
         </ThreeRowFlex>
       </CalculatorConfigContext.Provider>
       

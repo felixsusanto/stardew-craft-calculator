@@ -168,7 +168,7 @@ const Purchasable: React.FC<{data: string}> = (props) => {
   if (props.data === '') return null;
   const [seller, value, currency, qty] = props.data.split('/');
   return (
-    <Typography variant="body2" sx={{mt:1}}>
+    <Typography variant="body2" sx={{mt:1, fontStyle: 'italic'}}>
       <SellerSprite id={ seller }/> selling for {value} {currency} / {qty ? `${qty} pcs` : 'pc'}
     </Typography>
   );
