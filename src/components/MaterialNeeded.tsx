@@ -1,8 +1,8 @@
 import React from 'react';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-// import materialCsv from '../csv/material.csv';
-import materialCsv from '../csv/ingredients.csv';
+import materialCsv from '../csv/material.csv';
+import ingredientsCsv from '../csv/ingredients.csv';
 import Checkbox from '@mui/material/Checkbox';
 import numeral from 'numeral';
 import Tooltip from '@mui/material/Tooltip';
@@ -15,8 +15,11 @@ import CalculatorConfigContext, { Year, Season } from '../context/CalculatorConf
 import { CheckCircle } from '@mui/icons-material';
 import { MaterialSprite, SellerSprite } from './CraftableSprite';
 
+export type CsvType = 'MATERIAL' | 'INGREDIENTS';
+
 type MaterialNeededProps = {
   material?: Material;
+  csvType?: CsvType;
 };
 
 const SimpleRow = styled.div`
@@ -136,8 +139,8 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
   const { year, season } = config;
   const keys = Object.keys(p.material);
   if (keys.length === 0) return null;
-
-  const soldMaterial = _.filter(materialCsv, v => v.price !== '')
+  const theCsv = p.csvType === 'INGREDIENTS' ? ingredientsCsv : materialCsv;
+  const soldMaterial = _.filter(theCsv, v => v.price !== '')  
     .map(v => v.name)
   ;
   const intersection = _.intersection(soldMaterial, keys);
@@ -147,7 +150,7 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
     <React.Fragment>
       <div style={{display: 'flex', flexWrap: 'wrap', gap: '0 30px'}}>
         {keys.map((key) => {
-          const material = _.find(materialCsv, {name: key});
+          const material = _.find(theCsv, {name: key});
           if (!material) return null;
           return (
             <SimpleChecklist 
@@ -182,7 +185,7 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
               <div>
                 {intersection
                   .map((key) => {
-                    const material = _.find(materialCsv, {name: key})!;
+                    const material = _.find(theCsv, {name: key})!;
                     const priceCat = priceCategory(material.price);
                     const qty = (p.material!)[key];
                     return (

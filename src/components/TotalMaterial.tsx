@@ -17,7 +17,9 @@ const TotalMaterial: React.FC<TotalMaterialProps> = (props) => {
       <Typography variant="h6" gutterBottom>
         Grand Total 
       </Typography>
-      <MaterialNeeded material={props.total} />
+      <MaterialNeeded 
+        material={props.total} 
+      />
     </Paper>
   );
 };

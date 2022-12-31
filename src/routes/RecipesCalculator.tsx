@@ -1,7 +1,6 @@
 import React from 'react';
 import { recipes } from "../assets/data/cookingRecipes";
-import CraftableComponent, { zeroMask } from '../components/CraftableComponent';
-import { MaterialSprite } from '../components/CraftableSprite';
+import CraftableComponent from '../components/CraftableComponent';
 import { Container } from './root';
 
 
@@ -14,6 +13,7 @@ const RecipesCalculator = () => {
         return (
           <>
             <CraftableComponent 
+              csvType='INGREDIENTS'
               spriteType='MATERIAL'
               label={obj.name}
               purchasable=''
@@ -22,7 +22,6 @@ const RecipesCalculator = () => {
               onClose={() => {}}
               onQtyChange={() => {}}
             />
-            {JSON.stringify(obj.ingredients, null, 2)}
           </>
         );
       })}

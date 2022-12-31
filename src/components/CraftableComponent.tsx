@@ -9,9 +9,9 @@ import styled from 'styled-components';
 
 import { CraftableBase, Material } from '../csv/craftables.csv';
 import DataContext, { InitialData } from '../context/InitialDataContext';
-import MaterialNeeded from './MaterialNeeded';
-import { generateNewItems, newData } from '../csv/utilities';
+import MaterialNeeded, { CsvType } from './MaterialNeeded';
 import CraftableSprite, { SellerSprite, MaterialSprite } from './CraftableSprite';
+
 
 const MAX_VALUE = 9999; 
 
@@ -26,6 +26,7 @@ export const zeroMask = (x: number) => {
 
 type CraftableProps = Omit<CraftableBase, 'group'|'priority'> & {
   spriteType: 'CRAFTABLE' | 'MATERIAL';
+  csvType?: CsvType;
   material: Material;
   onQtyChange: (v: Material, d: InitialData) => void;
   onClose: () => void;
@@ -163,7 +164,10 @@ const CraftableComponent: React.FC<CraftableProps> = (props) => {
       <Purchasable data={props.purchasable} />
       
       <div style={{marginTop: 10}}>
-        <MaterialNeeded material={materialNeeded} />
+        <MaterialNeeded 
+          material={materialNeeded} 
+          csvType={props.csvType}
+        />
       </div>
     </Paper>
   );
