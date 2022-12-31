@@ -12,7 +12,7 @@ import { Box } from '@mui/material';
 import styled from 'styled-components';
 import Footer from './components/Footer';
 import Fab from '@mui/material/Fab';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import { ArrowUpward } from '@mui/icons-material';
 import Header from './components/Header'; 
 import mainLogo from './assets/main_logo.png';
 import CraftableSprite from './components/CraftableSprite';
@@ -246,7 +246,7 @@ function App() {
       
       <div style={{ position: 'fixed', right: 20, bottom: 20}}>
         <Fab color="primary" aria-label="add">
-          <ArrowUpwardIcon />
+          <ArrowUpward />
         </Fab>
       </div>
     </DataContext.Provider>
