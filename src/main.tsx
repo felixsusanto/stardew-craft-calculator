@@ -12,6 +12,8 @@ import {
 } from 'react-router-dom';
 import Root from './routes/root';
 import ErrorPage from './error-page';
+import RecipesCalculator from './routes/RecipesCalculator';
+import { RouteUrl } from './Routes';
 
 
 const router = createBrowserRouter([
@@ -21,9 +23,13 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: 'craftables',
+        path: RouteUrl.CRAFTABLES,
         element: <App />
-      }
+      },
+      {
+        path: RouteUrl.RECIPES,
+        element: <RecipesCalculator />
+      },
     ],
   },
   {

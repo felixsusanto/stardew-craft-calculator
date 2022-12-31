@@ -1,12 +1,11 @@
-const Routes = [
-  {
-    name: 'Craftables',
-    route: 'craftables'
-  },
-  {
-    name: 'Cooking',
-    route: 'cooking'
-  },
-];
+export enum RouteUrl {
+  CRAFTABLES = 'craftables',
+  RECIPES = 'recipes',
+};
+
+const Routes: Record<RouteUrl, string> = {
+  [RouteUrl.CRAFTABLES]: 'Craftable',
+  [RouteUrl.RECIPES]: 'Cooking Recipes'
+};
 
 export default Routes;
