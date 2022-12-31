@@ -36,7 +36,7 @@ const orderOfImportance = (x: number) => {
 const CraftingMaterials: React.FC = () => {
   const list = Materials.map(obj => {
     const craftableWithMaterial = _.filter(Craftables, (c) => {
-      const name = obj.material;
+      const name = obj.name;
       return c[name] !== 0;
     });
     const uses = craftableWithMaterial.length;
@@ -53,7 +53,7 @@ const CraftingMaterials: React.FC = () => {
         <TreeView>
           {_.orderBy(list, ['usedInCraftables', 'material'], ['desc', 'asc']).map((obj, index, arr) => {
             const craftableWithMaterial = _.filter(Craftables, (c) => {
-              const name = obj.material;
+              const name = obj.name;
               return c[name] !== 0;
             });
             return (
@@ -63,7 +63,7 @@ const CraftingMaterials: React.FC = () => {
                   label={
                     <React.Fragment>
                       <MaterialSprite id={zeroMask(obj.id)}/>{' '}
-                      <Typography display="inline" variant="body2">{obj.material} ({obj.usedInCraftables})</Typography>
+                      <Typography display="inline" variant="body2">{obj.name} ({obj.usedInCraftables})</Typography>
                     </React.Fragment>
                   }
                 >

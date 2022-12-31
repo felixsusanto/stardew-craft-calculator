@@ -241,7 +241,7 @@ const getKeys = (d: InputData) => {
 
 export const generateNewItems = (d: InputData) => {
   const fields = materialCsv
-    .map(v => v.material)
+    .map(v => v.name)
   ;
   const base = fields.reduce((acc, curr) => {
       acc[curr] = 0;

@@ -1,7 +1,8 @@
 import React from 'react';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import materialCsv from '../csv/material.csv';
+// import materialCsv from '../csv/material.csv';
+import materialCsv from '../csv/ingredients.csv';
 import Checkbox from '@mui/material/Checkbox';
 import numeral from 'numeral';
 import Tooltip from '@mui/material/Tooltip';
@@ -137,7 +138,7 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
   if (keys.length === 0) return null;
 
   const soldMaterial = _.filter(materialCsv, v => v.price !== '')
-    .map(v => v.material)
+    .map(v => v.name)
   ;
   const intersection = _.intersection(soldMaterial, keys);
   const buyable = !!intersection.length;
@@ -146,12 +147,12 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
     <React.Fragment>
       <div style={{display: 'flex', flexWrap: 'wrap', gap: '0 30px'}}>
         {keys.map((key) => {
-          const material = _.find(materialCsv, {material: key});
+          const material = _.find(materialCsv, {name: key});
           if (!material) return null;
           return (
             <SimpleChecklist 
               key={key}
-              material={material.material}
+              material={material.name}
               value={p.material && p.material[key]}
             >
               <div className="img">
@@ -181,7 +182,7 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
               <div>
                 {intersection
                   .map((key) => {
-                    const material = _.find(materialCsv, {material: key})!;
+                    const material = _.find(materialCsv, {name: key})!;
                     const priceCat = priceCategory(material.price);
                     const qty = (p.material!)[key];
                     return (
@@ -192,7 +193,7 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
                           </div>
                           <div className="txt">
                             <Typography variant="body2">
-                              {material.material} &times;{qty}
+                              {material.name} &times;{qty}
                             </Typography>
                           </div>
                         </div>
@@ -254,7 +255,7 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
                     <div className="qty">
                       {intersection
                         .map((key) => {
-                          const material = _.find(materialCsv, {material: key})!;
+                          const material = _.find(materialCsv, {name: key})!;
                           const priceCat = priceCategory(material.price);
                           const qty = (p.material!)[key];
                           

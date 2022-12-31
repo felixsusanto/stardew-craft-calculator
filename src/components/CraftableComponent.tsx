@@ -11,9 +11,9 @@ import { CraftableBase, Material } from '../csv/craftables.csv';
 import DataContext, { InitialData } from '../context/InitialDataContext';
 import MaterialNeeded from './MaterialNeeded';
 import { generateNewItems, newData } from '../csv/utilities';
-import CraftableSprite, { SellerSprite } from './CraftableSprite';
+import CraftableSprite, { SellerSprite, MaterialSprite } from './CraftableSprite';
 
-const MAX_VALUE = 9999;
+const MAX_VALUE = 9999; 
 
 export const zeroMask = (x: number) => {
   if (x < 10) {
@@ -25,6 +25,7 @@ export const zeroMask = (x: number) => {
 }
 
 type CraftableProps = Omit<CraftableBase, 'group'|'priority'> & {
+  spriteType: 'CRAFTABLE' | 'MATERIAL';
   material: Material;
   onQtyChange: (v: Material, d: InitialData) => void;
   onClose: () => void;
@@ -87,6 +88,10 @@ const CraftableComponent: React.FC<CraftableProps> = (props) => {
     }
   }, [initData]);
 
+  const SpriteComponent = props.spriteType === 'CRAFTABLE' ?
+    CraftableSprite : MaterialSprite
+  ;
+
   return (
     <Paper
       elevation={4}
@@ -97,7 +102,7 @@ const CraftableComponent: React.FC<CraftableProps> = (props) => {
     >
       <TitleCard>
         <div className="img">
-          <CraftableSprite 
+          <SpriteComponent 
             id={zeroMask(props.id)}
             scale={2}
           />

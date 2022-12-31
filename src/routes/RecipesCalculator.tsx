@@ -14,6 +14,7 @@ const RecipesCalculator = () => {
         return (
           <>
             <CraftableComponent 
+              spriteType='MATERIAL'
               label={obj.name}
               purchasable=''
               id={obj.id}

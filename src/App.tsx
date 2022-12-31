@@ -212,6 +212,7 @@ function App() {
                   } = craft;
                   return (
                     <CraftableComponent 
+                      spriteType='CRAFTABLE'
                       key={id}
                       label={name}
                       id={id}

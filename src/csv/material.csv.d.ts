@@ -15,7 +15,7 @@ enum Seller {
 
 export interface Material {
   id: number;
-  material: string;
+  name: string;
   craftable: boolean;
   price: string;
   season: Season;
