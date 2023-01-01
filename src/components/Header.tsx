@@ -6,7 +6,7 @@ import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Info } from '@mui/icons-material';
-import { Container } from '../App';
+import { Container } from '../routes/root';
 import { Box, Paper, Typography } from '@mui/material';
 import CalculatorConfigContext, { Season, Year } from '../context/CalculatorConfigContext';
 import CraftingMaterials from '../components/CraftingMaterials';

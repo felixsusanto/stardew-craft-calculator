@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import _ from 'lodash';
-import craftableCsv, { Material } from './csv/craftables.csv';
+import craftableCsv, { Material } from '../csv/craftables.csv';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import CraftableComponent, { zeroMask } from './components/CraftableComponent';
-import TotalMaterial from './components/TotalMaterial';
-import { DataContextType, InitialData } from './context/InitialDataContext';
-import { CalculatorConfig, Season, Year } from './context/CalculatorConfigContext';
+import CraftableComponent, { zeroMask } from '../components/CraftableComponent';
+import TotalMaterial from '../components/TotalMaterial';
+import { DataContextType, InitialData } from '../context/InitialDataContext';
+import { CalculatorConfig, Season, Year } from '../context/CalculatorConfigContext';
 import { Box } from '@mui/material';
 import styled from 'styled-components';
-import { Craftable } from './routes/root';
-import Header from './components/Header'; 
-import mainLogo from './assets/main_logo.png';
-import CraftableSprite from './components/CraftableSprite';
+import { Craftable, Container } from './root';
+import Header from '../components/Header'; 
+import mainLogo from '../assets/main_logo.png';
+import CraftableSprite from '../components/CraftableSprite';
 
 export const CssTextField = styled(TextField)({
   '& label.Mui-focused': {
@@ -40,12 +40,6 @@ export const CssTextField = styled(TextField)({
   }
 });
 
-export const Container = styled.div`
-  max-width: 700px;
-  padding: 0 20px;
-  margin: 0 auto;
-`;
-
 const Splash = styled.div`
   position: fixed;
   top: 50%;
@@ -72,7 +66,7 @@ const defaultConfigValue = {
 
 console.log(craftableCsv);
 
-function App() {
+function CraftableCalculator() {
   const calculateRef = React.useRef(new Map<string, Material>());
   const initDataRef = React.useRef(new Map<string, InitialData>());
   const [craftable, setCraftable] = useState<Craftable[]>();
@@ -220,4 +214,4 @@ function App() {
   )
 }
 
-export default App
+export default CraftableCalculator

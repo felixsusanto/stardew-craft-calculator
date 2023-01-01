@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+import CraftableCalculator from './routes/CraftableCalculator';
 import './index.css';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -24,7 +24,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: RouteUrl.CRAFTABLES,
-        element: <App />
+        element: <CraftableCalculator />
       },
       {
         path: RouteUrl.RECIPES,
