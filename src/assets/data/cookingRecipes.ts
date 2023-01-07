@@ -1,4 +1,4 @@
-type Recipe = {
+export type Recipe = {
   name: string;
   ingredients: Record<string, number>;
   id: number;

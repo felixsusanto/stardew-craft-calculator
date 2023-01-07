@@ -3,10 +3,11 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import MaterialNeeded from './MaterialNeeded';
 import { Material } from '../csv/craftables.csv';
-
+import { CsvType } from './MaterialNeeded';
 
 type TotalMaterialProps = {
-  total: Material
+  total: Material;
+  csvType?: CsvType;
 };
 
 const TotalMaterial: React.FC<TotalMaterialProps> = (props) => {
@@ -18,6 +19,7 @@ const TotalMaterial: React.FC<TotalMaterialProps> = (props) => {
         Grand Total 
       </Typography>
       <MaterialNeeded 
+        csvType={props.csvType}
         material={props.total} 
       />
     </Paper>

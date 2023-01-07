@@ -1,13 +1,13 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
-import Materials from '../csv/material.csv';
-import Craftables from '../csv/craftables.csv';
 import { MaterialSprite } from './CraftableSprite';
 import { zeroMask } from './CraftableComponent';
 import styled from 'styled-components';
 import TreeView from '@mui/lab/TreeView';
 import TreeItem from '@mui/lab/TreeItem';
 import _ from 'lodash';
+import { recipes } from '../assets/data/cookingRecipes';
+import ingredients from '../csv/ingredients.csv';
 
 const FlexContainer = styled.div`
   /* display: flex;
@@ -42,28 +42,29 @@ const orderOfImportance = (x: number) => {
   }
 };
 
-const CraftingMaterials: React.FC = () => {
-  const list = Materials.map(obj => {
-    const craftableWithMaterial = _.filter(Craftables, (c) => {
+const RecipeIngredients: React.FC = () => {
+  const list = ingredients.map(obj => {
+    const craftableWithMaterial = _.filter(recipes, (c) => {
       const name = obj.name;
-      return c[name] !== 0;
+      return typeof c.ingredients[name] === 'number' && c.ingredients[name] !== 0;
     });
     const uses = craftableWithMaterial.length;
     const rank = orderOfImportance(uses);
     return {...obj, usedInCraftables: uses, rank}
   });
+  console.debug('list', list);
   const group = _.groupBy(list, (obj) => obj.rank);
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
-        List of Crafting Materials 
+        List of Ingredients 
       </Typography>
       <FlexContainer>
         <TreeView>
           {_.orderBy(list, ['usedInCraftables', 'material'], ['desc', 'asc']).map((obj, index, arr) => {
-            const craftableWithMaterial = _.filter(Craftables, (c) => {
+            const craftableWithMaterial = _.filter(recipes, (c) => {
               const name = obj.name;
-              return c[name] !== 0;
+              return typeof c.ingredients[name] === 'number' && c.ingredients[name] !== 0;
             });
             return (
               <React.Fragment>
@@ -83,7 +84,7 @@ const CraftingMaterials: React.FC = () => {
                         nodeId={`c-${craftable.id}`}
                         label={
                           <Typography variant='body2' display="inline">
-                            {craftable.label}
+                            {craftable.name}
                           </Typography>
                         }
                       />
@@ -99,4 +100,4 @@ const CraftingMaterials: React.FC = () => {
   );
 };
 
-export default CraftingMaterials;
+export default RecipeIngredients;

@@ -11,6 +11,9 @@ import { Box, Paper, Typography } from '@mui/material';
 import CalculatorConfigContext, { Season, Year } from '../context/CalculatorConfigContext';
 import CraftingMaterials from '../components/CraftingMaterials';
 import Modal from '@mui/material/Modal';
+import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from '@mui/material/Dialog';
+import RecipeIngredients from './RecipeIngredients';
 
 type HeaderProps = {
   children: React.ReactNode;
@@ -119,14 +122,17 @@ const Header: React.FC<HeaderProps> = (props) => {
           </Row>
         )}
       </Container>
-      <Modal
+      <Dialog
+        maxWidth='lg'
         open={openModal}
         onClose={() => setOpenModal(false)}
+        scroll="paper"
       >
         <Paper sx={{p: 3, maxWidth: 1200, margin: '0 auto', mt: 2, bgColor: '#fff'}}>
-          <CraftingMaterials />
+          {/* <CraftingMaterials /> */}
+          <RecipeIngredients />
         </Paper>
-      </Modal>
+      </Dialog>
     </div>
   );
 };
