@@ -144,7 +144,7 @@ function CalculatorLayout() {
             });
           }}
           getOptionLabel={(recipe) => recipe.name }
-          renderInput={(params) => <CssTextField {...params} size="small" label="Add Craftables"/>}
+          renderInput={(params) => <CssTextField {...params} size="small" label="Add Recipes"/>}
           renderOption={(props, option) => (
             <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 }, height: 48 }} {...props}>
               <MaterialSprite id={zeroMask(option.id)} style={{ marginRight: 10}}/>

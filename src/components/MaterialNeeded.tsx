@@ -108,8 +108,8 @@ const SimpleChecklist: React.FC<SimpleChecklistProps> = (props) => {
       <div>
         {props.children}
         <div className="txt" onClick={() => setCheck(!check)} style={{ cursor: 'pointer' }}>
-          <Typography variant="body2">
-            {props.material}
+          <Typography variant="body2" sx={{ textDecoration: check ? 'line-through' : undefined}}>
+            {props.material.replace(/common/gi, 'Cmn ')}
           </Typography>
         </div>
       </div>

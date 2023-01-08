@@ -61,13 +61,13 @@ const RecipeIngredients: React.FC = () => {
       </Typography>
       <FlexContainer>
         <TreeView>
-          {_.orderBy(list, ['usedInCraftables', 'material'], ['desc', 'asc']).map((obj, index, arr) => {
+          {_.orderBy(list, ['usedInCraftables', 'name'], ['desc', 'asc']).map((obj, index, arr) => {
             const craftableWithMaterial = _.filter(recipes, (c) => {
               const name = obj.name;
               return typeof c.ingredients[name] === 'number' && c.ingredients[name] !== 0;
             });
             return (
-              <React.Fragment>
+              <React.Fragment key={obj.id}>
                 { (index === 0 || (arr[index].rank !== arr[index - 1].rank))?  obj.rank : '' }
                 <TreeItem key={obj.id} nodeId={`m-${obj.id}`}
                   label={
@@ -83,9 +83,12 @@ const RecipeIngredients: React.FC = () => {
                         key={craftable.id}
                         nodeId={`c-${craftable.id}`}
                         label={
-                          <Typography variant='body2' display="inline">
-                            {craftable.name}
-                          </Typography>
+                          <React.Fragment>
+                            <MaterialSprite id={zeroMask(craftable.id)}/>{' '}
+                            <Typography variant='body2' display="inline">
+                              {craftable.name}
+                            </Typography>
+                          </React.Fragment>
                         }
                       />
                     );
