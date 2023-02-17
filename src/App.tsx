@@ -16,6 +16,7 @@ import { ArrowUpward } from '@mui/icons-material';
 import Header from './components/Header'; 
 import mainLogo from './assets/main_logo.png';
 import CraftableSprite from './components/CraftableSprite';
+import InventoryMaster from './components/InventoryMaster';
 
 export type Craftable = CraftableBase & Material;
 const CssTextField = styled(TextField)({
@@ -183,6 +184,7 @@ function App() {
           </Header>
           <div className="mid">
             <Container>
+              <InventoryMaster craftableFilter='Bee House' />
               { filter.length > 1 && (
                 <TotalMaterial total={_.omitBy(total, (v) => v === 0)} />
               )}

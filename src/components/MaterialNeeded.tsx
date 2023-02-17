@@ -13,6 +13,7 @@ import _ from 'lodash';
 import CalculatorConfigContext, { Year, Season } from '../context/CalculatorConfigContext';
 import { CheckCircle } from '@mui/icons-material';
 import { MaterialSprite, SellerSprite } from './CraftableSprite';
+import LinearProgress from '@mui/material/LinearProgress';
 
 type MaterialNeededProps = {
   material?: Material;
@@ -21,13 +22,7 @@ type MaterialNeededProps = {
 const SimpleRow = styled.div`
   display: flex;
   align-items: center;
-  flex-basis: 100%; 
-  @media(min-width: 500px) {
-    flex-basis: calc(50% - 30px); 
-  }
-  @media(min-width: 700px) {
-    flex-basis: calc(33.33% - 20px); 
-  }
+  flex: 1;
   .img {
     padding-right: 4px;
     display: inline-block;
@@ -128,6 +123,22 @@ const SimpleChecklist: React.FC<SimpleChecklistProps> = (props) => {
   );
 };
 
+const ChecklistContainer = styled.div`
+  display: flex;
+  flex-basis: 100%; 
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+  @media(min-width: 500px) {
+    flex-basis: calc(50% - 30px); 
+  }
+  @media(min-width: 700px) {
+    flex-basis: calc(33.33% - 20px); 
+  }
+  .progress {
+    width: 100%;
+  }
+`;
+
 const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
   const [buy, setBuy] = React.useState<boolean>();
   const { config } = React.useContext(CalculatorConfigContext);
@@ -149,19 +160,26 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
           const material = _.find(materialCsv, {material: key});
           if (!material) return null;
           return (
-            <SimpleChecklist 
-              key={key}
-              material={material.material}
-              value={p.material && p.material[key]}
-            >
-              <div className="img">
-                <a href={material.link} target="_blank">
-                  <MaterialSprite id={zeroMask(material.id)} />
-                </a>
+            <ChecklistContainer>
+              <SimpleChecklist 
+                key={key}
+                material={material.material}
+                value={p.material && p.material[key]}
+              >
+                <div className="img">
+                  <a href={material.link} target="_blank">
+                    <MaterialSprite id={zeroMask(material.id)} />
+                  </a>
+                </div>
+              </SimpleChecklist>
+              <div className="progress">
+                <LinearProgress variant="determinate" value={50}
+                  sx={{height: 2}}
+                /> 
               </div>
-            </SimpleChecklist>
+            </ChecklistContainer>
           );
-        })} 
+        })}
       </div>
       { buyable && (
         <BuySection>
