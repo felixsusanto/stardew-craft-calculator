@@ -11,12 +11,12 @@ import Typography from '@mui/material/Typography';
 import { zeroMask } from './CraftableComponent';
 import _ from 'lodash';
 import CalculatorConfigContext, { Year, Season } from '../context/CalculatorConfigContext';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { CheckCircle as CheckCircleIcon } from '@mui/icons-material';
 import { MaterialSprite, SellerSprite } from './CraftableSprite';
 
 type MaterialNeededProps = {
   material?: Material;
-};
+}; 
 
 const SimpleRow = styled.div`
   display: flex;
