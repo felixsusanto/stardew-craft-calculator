@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import _ from 'lodash';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import { Delete as DeleteIcon} from '@mui/icons-material';  
+import { Delete } from '@mui/icons-material';  
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import styled from 'styled-components';
@@ -111,7 +111,7 @@ const CraftableComponent: React.FC<CraftableProps> = (props) => {
         <div className="trash"
           onClick={() => props.onClose()}
         >
-          <DeleteIcon />
+          <Delete />
         </div>
       </TitleCard> {' '}
       <Grid container spacing={2}>

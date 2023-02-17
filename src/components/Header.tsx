@@ -4,7 +4,8 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
-import { Settings as SettingsIcon, Info as InfoIcon } from '@mui/icons-material';
+import SettingsIcon from '@mui/icons-material/Settings';
+import { Info } from '@mui/icons-material';
 import { Container } from '../App';
 import { Box, Paper, Typography } from '@mui/material';
 import CalculatorConfigContext, { Season, Year } from '../context/CalculatorConfigContext';
@@ -75,7 +76,7 @@ const Header: React.FC<HeaderProps> = (props) => {
             <SettingsIcon sx={{ color: '#fff'}}/>
           </div>
           <div className="icon" onClick={() => {setOpenModal(true)}}>
-            <InfoIcon sx={{ color: '#fff'}}/>
+            <Info sx={{ color: '#fff'}}/>
           </div>
         </Row>
         { show && (
