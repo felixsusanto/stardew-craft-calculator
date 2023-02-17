@@ -177,7 +177,10 @@ const CraftableComponent: React.FC<CraftableProps> = (props) => {
         onClose={() => setOpenModal(false)}
       >
         <Paper sx={{p: 3, maxWidth: 800, margin: '0 auto', mt: 2, bgColor: '#fff'}}>
-          <InventoryMaster craftableFilter={props.label} />
+          <InventoryMaster 
+            craftableFilter={props.label} 
+            onClose={() => setOpenModal(false)}
+          />
         </Paper>
       </Modal>
     </>

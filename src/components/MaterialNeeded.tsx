@@ -102,7 +102,7 @@ const SimpleChecklist: React.FC<SimpleChecklistProps> = (props) => {
       <div>
         {props.children}
         <div className="txt" onClick={() => setCheck(!check)} style={{ cursor: 'pointer' }}>
-          <Tooltip title={props.tooltipTitle}>
+          <Tooltip title={props.tooltipTitle} arrow>
             <Typography variant="body2">
               {props.material}
             </Typography>
@@ -167,7 +167,8 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
           const material = _.find(materialCsv, {material: key});
           if (!material || !p.material) return null;
           const progressValue = Math.min(inventoryState[material.material] / p.material[key] * 100, 100);
-          const tooltipMsg = progressValue < 100 ? `Short of ${p.material[key] - inventoryState[material.material]} units` : 'Enough Material';
+          const shortSurplus = p.material[key] - inventoryState[material.material];
+          const tooltipMsg = shortSurplus > 0 ? `Short of ${shortSurplus} units` : `Surplus of ${Math.abs(shortSurplus)} units from inventory`;
           return (
             <ChecklistContainer key={key}>
               <SimpleChecklist 
@@ -211,7 +212,7 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
                   .map((key) => {
                     const material = _.find(materialCsv, {material: key})!;
                     const priceCat = priceCategory(material.price);
-                    const qty = (p.material!)[key];
+                    const qty = Math.max((p.material!)[key] - inventoryState[material.material], 0);
                     return (
                       <SimpleRow key={key}>
                         <div style={{display: 'flex', alignItems: 'center'}}>
@@ -284,7 +285,7 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
                         .map((key) => {
                           const material = _.find(materialCsv, {material: key})!;
                           const priceCat = priceCategory(material.price);
-                          const qty = (p.material!)[key];
+                          const qty = Math.max((p.material!)[key] - inventoryState[material.material], 0);
                           
                           if (priceCat.type === 'fixed') {
                             const total = priceCat.price * qty;

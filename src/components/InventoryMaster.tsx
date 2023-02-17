@@ -53,6 +53,7 @@ export const inventoryInitState = (inventory?: InventoryData[]) => {
 
 interface InventoryProps {
   craftableFilter?: string;
+  onClose?: () => void;
 }
 
 const checkMaterial = (craftableName: string) => {
@@ -146,6 +147,7 @@ const InventoryMaster: React.FC<InventoryProps> = (p) => {
             return acc;
           }, [] as InventoryData[]);
           setInventory(final);
+          p.onClose && p.onClose();
         }}
       >Save</Button>
     </React.Fragment>
