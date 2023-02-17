@@ -14,7 +14,6 @@ const FlexContainer = styled.div`
   flex-wrap: wrap; */
   columns: 4;
   gap: 0 10px;
-  
 `;
 
 const orderOfImportance = (x: number) => {
