@@ -6,7 +6,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import CraftableComponent, { zeroMask } from './components/CraftableComponent';
 import TotalMaterial from './components/TotalMaterial';
-import DataContext, { DataContextType, InitialData } from './context/InitialDataContext';
+import DataContext, { DataContextType, InitialData, InventoryData } from './context/InitialDataContext';
 import CalculatorConfigContext, { CalculatorConfigType, CalculatorConfig, Season, Year } from './context/CalculatorConfigContext';
 import { Box } from '@mui/material';
 import styled from 'styled-components';
@@ -83,8 +83,6 @@ const defaultConfigValue = {
   year: Year.EMPTY
 };
 
-console.log(craftableCsv);
-
 function App() {
   const calculateRef = React.useRef(new Map<string, Material>());
   const initDataRef = React.useRef(new Map<string, InitialData>());
@@ -92,21 +90,25 @@ function App() {
   const [filter, setFilter] = useState<string[]>([]);
   const [recalculate, setRecalculate] = useState<boolean>();
   const [total, setTotal] = useState<Material>();
-  const [ctx, setCtx] = useState<DataContextType>({});
+  const [ctx, setCtx] = useState<Omit<DataContextType, 'setInventory'>>({});
+  const [inventory, setInventory] = useState<InventoryData[]>([]);
   const [config, setConfig] = useState<CalculatorConfig>();
+  
 
   React.useEffect(() => {
     const craftable: Craftable[] = craftableCsv;
     setCraftable(craftable);
     const existingInitData  = window.localStorage.getItem('initData');
+    const existingInventoryData  = window.localStorage.getItem('inventory');
     const existingConfigData  = window.localStorage.getItem('configData');
     const initDataContext = (existingInitData ? JSON.parse(existingInitData) : []) as InitialData[];
+    const inventoryDataContext = (existingInventoryData ? JSON.parse(existingInventoryData) : []) as InventoryData[];
     const initConfigDataContext = (
       existingConfigData ? 
       JSON.parse(existingConfigData) : defaultConfigValue
       ) as CalculatorConfig
     ;
-    setCtx({ initData: initDataContext });
+    setCtx({ initData: initDataContext, inventory: inventoryDataContext });
     setConfig(initConfigDataContext);
   }, []);
 
@@ -116,6 +118,12 @@ function App() {
       setFilter(filter);
     }
   }, [ctx]);
+  React.useEffect(() => {
+    if (inventory.length) {
+      setCtx(existing => ({...existing, inventory}));
+      window.localStorage.setItem('inventory', JSON.stringify(inventory));
+    }
+  }, [inventory]);
 
   React.useEffect(() => {
     if (typeof config === 'undefined') return;
@@ -148,7 +156,10 @@ function App() {
   }, [recalculate]);
   
   return (
-    <DataContext.Provider value={ctx}>
+    <DataContext.Provider value={{
+      ...ctx,
+      setInventory
+    }} >
       <CssBaseline />
       <CalculatorConfigContext.Provider 
         value={{
@@ -184,7 +195,6 @@ function App() {
           </Header>
           <div className="mid">
             <Container>
-              <InventoryMaster craftableFilter='Bee House' />
               { filter.length > 1 && (
                 <TotalMaterial total={_.omitBy(total, (v) => v === 0)} />
               )}

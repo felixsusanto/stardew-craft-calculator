@@ -14,6 +14,8 @@ import CalculatorConfigContext, { Year, Season } from '../context/CalculatorConf
 import { CheckCircle } from '@mui/icons-material';
 import { MaterialSprite, SellerSprite } from './CraftableSprite';
 import LinearProgress from '@mui/material/LinearProgress';
+import DataContext from '../context/InitialDataContext';
+import { inventoryInitState } from './InventoryMaster';
 
 type MaterialNeededProps = {
   material?: Material;
@@ -91,6 +93,7 @@ type SimpleChecklistProps = {
   material: string;
   value?: number;
   children?: React.ReactNode;
+  tooltipTitle?: string;
 };
 const SimpleChecklist: React.FC<SimpleChecklistProps> = (props) => {
   const [check, setCheck] = React.useState(false);
@@ -99,9 +102,11 @@ const SimpleChecklist: React.FC<SimpleChecklistProps> = (props) => {
       <div>
         {props.children}
         <div className="txt" onClick={() => setCheck(!check)} style={{ cursor: 'pointer' }}>
-          <Typography variant="body2">
-            {props.material}
-          </Typography>
+          <Tooltip title={props.tooltipTitle}>
+            <Typography variant="body2">
+              {props.material}
+            </Typography>
+          </Tooltip>
         </div>
       </div>
       <div className="dots"></div>
@@ -140,6 +145,7 @@ const ChecklistContainer = styled.div`
 `;
 
 const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
+  const { inventory } = React.useContext(DataContext);
   const [buy, setBuy] = React.useState<boolean>();
   const { config } = React.useContext(CalculatorConfigContext);
   if (!config || !p.material) return null;
@@ -152,19 +158,22 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
   ;
   const intersection = _.intersection(soldMaterial, keys);
   const buyable = !!intersection.length;
+  const inventoryState = inventoryInitState(inventory);
   
   return (
     <React.Fragment>
       <div style={{display: 'flex', flexWrap: 'wrap', gap: '0 30px'}}>
         {keys.map((key) => {
           const material = _.find(materialCsv, {material: key});
-          if (!material) return null;
+          if (!material || !p.material) return null;
+          const progressValue = Math.min(inventoryState[material.material] / p.material[key] * 100, 100);
+          const tooltipMsg = progressValue < 100 ? `Short of ${p.material[key] - inventoryState[material.material]} units` : 'Enough Material';
           return (
-            <ChecklistContainer>
+            <ChecklistContainer key={key}>
               <SimpleChecklist 
-                key={key}
                 material={material.material}
-                value={p.material && p.material[key]}
+                value={p.material[key]}
+                tooltipTitle={tooltipMsg}
               >
                 <div className="img">
                   <a href={material.link} target="_blank">
@@ -173,7 +182,8 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
                 </div>
               </SimpleChecklist>
               <div className="progress">
-                <LinearProgress variant="determinate" value={50}
+                <LinearProgress variant="determinate" 
+                  value={progressValue}
                   sx={{height: 2}}
                 /> 
               </div>

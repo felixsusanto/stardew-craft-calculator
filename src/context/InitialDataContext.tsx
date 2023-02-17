@@ -8,12 +8,13 @@ export type InitialData = {
 
 export type InventoryData = {
   name: string;
-  qty: string;
+  qty: number;
 };
 
 export type DataContextType = {
   initData?: InitialData[];
   inventory?: InventoryData[];
+  setInventory: (v: InventoryData[]) => void;
 };
 
 const DataContext = React.createContext<DataContextType>({} as DataContextType);

@@ -6,9 +6,10 @@ import { zeroMask } from './CraftableComponent';
 import { MaterialSprite } from './CraftableSprite';
 import { Close as CloseIcon} from '@mui/icons-material';
 import styled from 'styled-components';
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import _ from 'lodash';
+import Button from '@mui/material/Button';
+import DataContext, { InventoryData } from '../context/InitialDataContext';
 
 const MAX_VALUE = 99999;
 
@@ -36,11 +37,17 @@ const reducer: React.Reducer<InventoryState, InventoryAction> = (state, action) 
   return newState;
 };
 
-const initState = () => {
+export const inventoryInitState = (inventory?: InventoryData[]) => {
   const state: InventoryState = {};
-  Materials.forEach((m) => {
-    state[m.material] = 0;
-  });
+  if (!inventory) {
+    Materials.forEach((m) => {
+      state[m.material] = 0;
+    });
+    return state;
+  }
+  inventory.map((inv) => {
+    state[inv.name] = inv.qty;
+  })
   return state;
 };
 
@@ -60,20 +67,15 @@ const checkMaterial = (craftableName: string) => {
 };
 
 const InventoryMaster: React.FC<InventoryProps> = (p) => {
-  const [state, dispatch] = React.useReducer(reducer, initState());
+  const { inventory, setInventory } = React.useContext(DataContext);
+  const [state, dispatch] = React.useReducer(reducer, inventory, inventoryInitState);
   const [filter, setFilter] = React.useState<string>();
-
   React.useEffect(() => {
     p.craftableFilter && 
     checkMaterial(p.craftableFilter);
   }, []);
   return (
-    <Paper elevation={4}
-      sx={{
-        p: 2,
-        mb: 2,
-      }}
-    >
+    <React.Fragment>
       <Typography variant="h6">Item Inventory {p.craftableFilter ? `: ${p.craftableFilter}` : ''}</Typography>
       {!p.craftableFilter && (
         <TextField 
@@ -134,7 +136,19 @@ const InventoryMaster: React.FC<InventoryProps> = (p) => {
           })
         }
       </ListParent>
-    </Paper>
+      <Button variant="outlined"
+        onClick={() => {
+          const final = Object.keys(state).reduce((acc, currKey) => {
+            acc.push({
+              name: currKey,
+              qty: state[currKey]
+            });
+            return acc;
+          }, [] as InventoryData[]);
+          setInventory(final);
+        }}
+      >Save</Button>
+    </React.Fragment>
   );
 };
 
