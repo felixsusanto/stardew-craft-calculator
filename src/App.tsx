@@ -113,7 +113,7 @@ function App() {
   }, []);
 
   React.useEffect(() => {
-    if (ctx.initData) {
+    if (typeof ctx.initData !== 'undefined' && ctx.initData.length) {
       const filter = ctx.initData.map((item) => item.label);
       setFilter(filter);
     }
