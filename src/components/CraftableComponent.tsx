@@ -39,9 +39,14 @@ const TitleCard = styled.div`
   .img {
     flex: 0 0 32px;
   }
-  .trash {
+  .trash, .inventory {
     align-self: flex-start;
     cursor: pointer;
+  }
+  .inventory {
+    padding-left: 10px;
+    margin-left: 10px;
+    border-left: 1px solid #ddd;
   }
   .text {
     margin-left: 8px;
@@ -119,7 +124,7 @@ const CraftableComponent: React.FC<CraftableProps> = (props) => {
           >
             <Delete />
           </div>
-          <div className="trash"
+          <div className="inventory"
             onClick={() => setOpenModal(true)}
           >
             <InventoryIcon />

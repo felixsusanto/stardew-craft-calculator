@@ -39,7 +39,7 @@ const reducer: React.Reducer<InventoryState, InventoryAction> = (state, action) 
 
 export const inventoryInitState = (inventory?: InventoryData[]) => {
   const state: InventoryState = {};
-  if (!inventory) {
+  if (!inventory || (Array.isArray(inventory) && (inventory.length === 0))) {
     Materials.forEach((m) => {
       state[m.material] = 0;
     });
