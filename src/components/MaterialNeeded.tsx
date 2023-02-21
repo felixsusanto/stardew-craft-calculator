@@ -205,16 +205,36 @@ const buyableBarsData: Bars[] = [
   },
 ];
 
+interface onCalculationPayload {
+  id: string; 
+  payload: [number, number];
+};
+
 interface BuyListItemProps {
+  id: string;
   material: Material;
   priceCat: PriceCatReturn;
   qty: number;
   season: Season;
   year: Year;
+  onCalculation?: (v: onCalculationPayload) => void;
 }
 
 const BuyListItem: React.FC<BuyListItemProps> = (p) => {
   const { material, priceCat, qty, year, season } = p;
+  React.useEffect(() => {
+    if (p.onCalculation) {
+      let payload: onCalculationPayload;
+      if (priceCat.type === 'fixed') {
+        const total = priceCat.price * qty;
+        payload = {id: p.id, payload: [total, total]};
+      } else {
+        payload = {id: p.id, payload: priceCat.prices.map(p => p * qty) as [number, number]};
+      }
+      p.onCalculation(payload);
+    }
+  }, [material, priceCat, qty, year, season])
+  
   return (
     <SimpleRow>
       <div style={{display: 'flex', alignItems: 'center'}}>
@@ -274,10 +294,17 @@ const BuyListItem: React.FC<BuyListItemProps> = (p) => {
   );
 }
 
+const reducer: React.Reducer<Record<string, [number, number]>, onCalculationPayload> = (state, action) => {
+  const cloned = _.cloneDeep(state);
+  cloned[action.id] = action.payload;
+  return cloned;
+};
+
 const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
   const { inventory } = React.useContext(DataContext);
   const [buy, setBuy] = React.useState<boolean>();
   const { config } = React.useContext(CalculatorConfigContext);
+  const [state, dispatch] = React.useReducer(reducer, {});
   if (!config || !p.material) return null;
   const { year, season } = config;
   const keys = Object.keys(p.material);
@@ -289,7 +316,6 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
   const buyableBars = buyableBarsData.map(v => v.name);
   const intersection = _.intersection(soldMaterial, keys);
   const barsSection = _.intersection(buyableBars, keys);
-  console.log(barsSection);
   const buyable = !!intersection.length;
   const inventoryState = inventoryInitState(inventory);
   
@@ -346,8 +372,8 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
                     const material = _.find(materialCsv, {material: key})!;
                     const priceCat = priceCategory(material.price);
                     const qty = Math.max((p.material!)[key] - inventoryState[material.material], 0);
-                    const props = { material, priceCat, qty, season, year };
-                    return <BuyListItem {...props} key={key}/>;
+                    const props = { material, priceCat, qty, season, year, onCalculation:console.log };
+                    return <BuyListItem {...props} key={key} id={key}/>;
                   })
                 }
               </div>
@@ -367,11 +393,13 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
                           {bar.ingredients.map((ing) => {
                             const material = _.find(materialCsv, {material: ing.name})!;
                             const props: BuyListItemProps = {
+                              id: `${key}_${ing.name}`,
                               qty: ing.qty * qty,
                               material,
                               priceCat: priceCategory(material.price),
                               season,
                               year,
+                              onCalculation:console.log
                             };
                             return <BuyListItem key={ing.name} {...props} />
                           })}
@@ -389,12 +417,31 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
                     </div>
                     <div className="dots" />
                     <div className="qty">
-                      {intersection
+                      {[...intersection
                         .map((key) => {
                           const material = _.find(materialCsv, {material: key})!;
                           const priceCat = priceCategory(material.price);
                           const qty = Math.max((p.material!)[key] - inventoryState[material.material], 0);
                           
+                          return {
+                            material, priceCat, qty
+                          }
+                        }),
+                        ...barsSection
+                        .map((barName) => {
+                          const bar = _.find(buyableBarsData, {name: barName})!;
+                          const qty = Math.max((p.material!)[barName] - inventoryState[barName], 0);
+                          const keys = bar.ingredients.map(ing => {
+                            const material = _.find(materialCsv, {material: ing.name})!;
+                            const priceCat = priceCategory(material.price);
+                            return { material, priceCat, qty: ing.qty * qty};
+                          });
+                          return keys;
+                        })
+                        .reduce((acc, curr) => [...acc, ...curr], [])
+                        ]
+                        .map((p) => {
+                          const {priceCat, material, qty} = p;
                           if (priceCat.type === 'fixed') {
                             const total = priceCat.price * qty;
                             return [total, total];
@@ -439,22 +486,6 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
                       }
                     </div>
                   </SimpleRow>
-                  <div>
-                    {barsSection
-                      .map((barName) => {
-                        const bar = _.find(buyableBarsData, {name: barName})!;
-                        const qty = Math.max((p.material!)[barName] - inventoryState[barName], 0);
-                        const keys = bar.ingredients.map(ing => {
-                          const material = _.find(materialCsv, {material: ing.name})!;
-                          const priceCat = priceCategory(material.price);
-                          return { material, priceCat, qty: ing.qty * qty};
-                        });
-                        return <pre>
-                          {JSON.stringify(keys, null, 2)}
-                        </pre>;
-                      })
-                    }
-                  </div>
                 </div>
               )}
             </React.Fragment>
