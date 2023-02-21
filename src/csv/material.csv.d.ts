@@ -13,7 +13,7 @@ enum Seller {
   CLINT = 'clint',
 }
 
-interface Material {
+export interface Material {
   id: number;
   material: string;
   craftable: boolean;

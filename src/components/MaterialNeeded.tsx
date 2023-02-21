@@ -1,12 +1,12 @@
 import React from 'react';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import materialCsv from '../csv/material.csv';
+import materialCsv, { Material } from '../csv/material.csv';
 import Checkbox from '@mui/material/Checkbox';
 import numeral from 'numeral';
 import Tooltip from '@mui/material/Tooltip';
 import styled from 'styled-components';
-import { Material } from '../csv/craftables.csv';
+import { CraftableMaterial } from '../csv/craftables.csv';
 import Typography from '@mui/material/Typography';
 import { zeroMask } from './CraftableComponent';
 import _ from 'lodash';
@@ -18,7 +18,7 @@ import DataContext from '../context/InitialDataContext';
 import { inventoryInitState } from './InventoryMaster';
 
 type MaterialNeededProps = {
-  material?: Material;
+  material?: CraftableMaterial;
 }; 
 
 const SimpleRow = styled.div`
@@ -144,6 +144,136 @@ const ChecklistContainer = styled.div`
   }
 `;
 
+interface Bars {
+  id: number;
+  name: string;
+  ingredients: {
+    id: number;
+    name: string;
+    qty: number;
+  }[];
+}
+
+const buyableBarsData: Bars[] = [
+  {
+    id: 334,
+    name: 'Copper Bar',
+    ingredients: [
+      {
+        id: 382,
+        name: 'Coal',
+        qty: 1,
+      },
+      {
+        id: 378,
+        name: 'Copper Ore',
+        qty: 5,
+      },
+    ],
+  },
+  {
+    id: 335,
+    name: 'Iron Bar',
+    ingredients: [
+      {
+        id: 382,
+        name: 'Coal',
+        qty: 1,
+      },
+      {
+        id: 380,
+        name: 'Iron Ore',
+        qty: 5,
+      },
+    ],
+  },
+  {
+    id: 336,
+    name: 'Gold Bar',
+    ingredients: [
+      {
+        id: 382,
+        name: 'Coal',
+        qty: 1,
+      },
+      {
+        id: 384,
+        name: 'Gold Ore',
+        qty: 5,
+      },
+    ],
+  },
+];
+
+interface BuyListItemProps {
+  material: Material;
+  priceCat: PriceCatReturn;
+  qty: number;
+  season: Season;
+  year: Year;
+}
+
+const BuyListItem: React.FC<BuyListItemProps> = (p) => {
+  const { material, priceCat, qty, year, season } = p;
+  return (
+    <SimpleRow>
+      <div style={{display: 'flex', alignItems: 'center'}}>
+        <div className="img">
+          <MaterialSprite id={zeroMask(material.id)}/>
+        </div>
+        <div className="txt">
+          <Typography variant="body2">
+            {material.material} &times;{qty}
+          </Typography>
+        </div>
+      </div>
+      <div className="dots" />
+      <div className="qty">
+        <Typography variant="body2" sx={{display: 'inline-block'}}>
+          { priceCat.type === 'fixed' && 
+            <span><b>{numeral(priceCat.price * qty).format('0,0')}</b> G</span>
+          }
+          { priceCat.type === 'year' && 
+            priceCat.prices
+              .map((p, i) => {
+                if (year === Year.ONE && i === 1) return null;
+                if (year === Year.TWO_PLUS && i === 0) return null;
+                return (
+                  <React.Fragment key={i}>
+                    <Tooltip arrow placement="top" title={i ? 'Year 2+' : 'Year 1'}>
+                      <span><b>{numeral(qty * p).format('0,0')}</b> G</span>
+                    </Tooltip>
+                    {year === Year.EMPTY && i === 0 ? ' / ' : ''}
+                  </React.Fragment>
+                );
+              })
+          }
+          { priceCat.type === 'season' &&
+            priceCat.prices
+              .map((p, i) => {
+                if (season !== Season.EMPTY) {
+                  if (material.season === season && i === 1) return null;
+                  if (material.season !== season && i === 0) return null;
+                }
+                return (
+                  <React.Fragment key={i}>
+                    <Tooltip arrow placement="top" title={i ? `Off Season(${material.season})` : 'On Season'}>
+                      <span><b>{numeral(qty * p).format('0,0')}</b> G</span>
+                    </Tooltip>
+                    {season === Season.EMPTY && i === 0 ? ' / ' : ''}
+                  </React.Fragment>
+                );
+              })
+          }
+        </Typography>
+        <SellerSprite id={material.seller} scale={1}
+          style={{display: 'inline-block'}}
+        />
+      </div>
+    </SimpleRow>
+  );
+}
+
 const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
   const { inventory } = React.useContext(DataContext);
   const [buy, setBuy] = React.useState<boolean>();
@@ -156,7 +286,10 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
   const soldMaterial = _.filter(materialCsv, v => v.price !== '')
     .map(v => v.material)
   ;
+  const buyableBars = buyableBarsData.map(v => v.name);
   const intersection = _.intersection(soldMaterial, keys);
+  const barsSection = _.intersection(buyableBars, keys);
+  console.log(barsSection);
   const buyable = !!intersection.length;
   const inventoryState = inventoryInitState(inventory);
   
@@ -213,67 +346,42 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
                     const material = _.find(materialCsv, {material: key})!;
                     const priceCat = priceCategory(material.price);
                     const qty = Math.max((p.material!)[key] - inventoryState[material.material], 0);
-                    return (
-                      <SimpleRow key={key}>
-                        <div style={{display: 'flex', alignItems: 'center'}}>
-                          <div className="img">
-                            <MaterialSprite id={zeroMask(material.id)}/>
-                          </div>
-                          <div className="txt">
-                            <Typography variant="body2">
-                              {material.material} &times;{qty}
-                            </Typography>
-                          </div>
-                        </div>
-                        <div className="dots" />
-                        <div className="qty">
-                          <Typography variant="body2" sx={{display: 'inline-block'}}>
-                            { priceCat.type === 'fixed' && 
-                              <span><b>{numeral(priceCat.price * qty).format('0,0')}</b> G</span>
-                            }
-                            { priceCat.type === 'year' && 
-                              priceCat.prices
-                                .map((p, i) => {
-                                  if (year === Year.ONE && i === 1) return null;
-                                  if (year === Year.TWO_PLUS && i === 0) return null;
-                                  return (
-                                    <React.Fragment key={i}>
-                                      <Tooltip arrow placement="top" title={i ? 'Year 2+' : 'Year 1'}>
-                                        <span><b>{numeral(qty * p).format('0,0')}</b> G</span>
-                                      </Tooltip>
-                                      {year === Year.EMPTY && i === 0 ? ' / ' : ''}
-                                    </React.Fragment>
-                                  );
-                                })
-                            }
-                            { priceCat.type === 'season' &&
-                              priceCat.prices
-                                .map((p, i) => {
-                                  if (season !== Season.EMPTY) {
-                                    if (material.season === season && i === 1) return null;
-                                    if (material.season !== season && i === 0) return null;
-                                  }
-                                  return (
-                                    <React.Fragment key={i}>
-                                      <Tooltip arrow placement="top" title={i ? `Off Season(${material.season})` : 'On Season'}>
-                                        <span><b>{numeral(qty * p).format('0,0')}</b> G</span>
-                                      </Tooltip>
-                                      {season === Season.EMPTY && i === 0 ? ' / ' : ''}
-                                    </React.Fragment>
-                                  );
-                                })
-                            }
-                          </Typography>
-                          <SellerSprite id={material.seller} scale={1}
-                            style={{display: 'inline-block'}}
-                          />
-                        </div>
-                      </SimpleRow>
-                    );
+                    const props = { material, priceCat, qty, season, year };
+                    return <BuyListItem {...props} key={key}/>;
                   })
                 }
               </div>
-              {intersection.length > 1 && (
+              {barsSection.length > 0 && (
+                <div style={{marginTop: 8}}>
+                  {barsSection.map((key) => {
+                    const bar = _.find(buyableBarsData, {name: key})!;
+                    const qty = Math.max((p.material!)[key] - inventoryState[key], 0);
+                    if (!qty) return null;
+                    return (
+                      <div key={key}>
+                        <Typography variant="body2">
+                          <MaterialSprite id={zeroMask(bar.id)}/> {' '}
+                          <b>{key} &times; {qty}</b>
+                        </Typography>
+                        <div style={{marginLeft: 16}}>
+                          {bar.ingredients.map((ing) => {
+                            const material = _.find(materialCsv, {material: ing.name})!;
+                            const props: BuyListItemProps = {
+                              qty: ing.qty * qty,
+                              material,
+                              priceCat: priceCategory(material.price),
+                              season,
+                              year,
+                            };
+                            return <BuyListItem key={ing.name} {...props} />
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+              {(intersection.length + barsSection.length) > 1 && (
                 <div style={{marginTop: 8}}>
                   <SimpleRow>
                     <div>
@@ -331,6 +439,22 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
                       }
                     </div>
                   </SimpleRow>
+                  <div>
+                    {barsSection
+                      .map((barName) => {
+                        const bar = _.find(buyableBarsData, {name: barName})!;
+                        const qty = Math.max((p.material!)[barName] - inventoryState[barName], 0);
+                        const keys = bar.ingredients.map(ing => {
+                          const material = _.find(materialCsv, {material: ing.name})!;
+                          const priceCat = priceCategory(material.price);
+                          return { material, priceCat, qty: ing.qty * qty};
+                        });
+                        return <pre>
+                          {JSON.stringify(keys, null, 2)}
+                        </pre>;
+                      })
+                    }
+                  </div>
                 </div>
               )}
             </React.Fragment>

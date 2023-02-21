@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import _ from 'lodash';
 import CssBaseline from '@mui/material/CssBaseline';
-import craftableCsv, { CraftableBase, Material } from './csv/craftables.csv';
+import craftableCsv, { CraftableBase, CraftableMaterial } from './csv/craftables.csv';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import CraftableComponent, { zeroMask } from './components/CraftableComponent';
@@ -18,7 +18,7 @@ import mainLogo from './assets/main_logo.png';
 import CraftableSprite from './components/CraftableSprite';
 import InventoryMaster from './components/InventoryMaster';
 
-export type Craftable = CraftableBase & Material;
+export type Craftable = CraftableBase & CraftableMaterial;
 const CssTextField = styled(TextField)({
   '& label.Mui-focused': {
     color: '#fff',
@@ -84,12 +84,12 @@ const defaultConfigValue = {
 };
 
 function App() {
-  const calculateRef = React.useRef(new Map<string, Material>());
+  const calculateRef = React.useRef(new Map<string, CraftableMaterial>());
   const initDataRef = React.useRef(new Map<string, InitialData>());
   const [craftable, setCraftable] = useState<Craftable[]>();
   const [filter, setFilter] = useState<string[]>([]);
   const [recalculate, setRecalculate] = useState<boolean>();
-  const [total, setTotal] = useState<Material>();
+  const [total, setTotal] = useState<CraftableMaterial>();
   const [ctx, setCtx] = useState<Omit<DataContextType, 'setInventory'>>({});
   const [inventory, setInventory] = useState<InventoryData[]>([]);
   const [config, setConfig] = useState<CalculatorConfig>();

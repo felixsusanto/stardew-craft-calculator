@@ -5,6 +5,6 @@ export interface CraftableBase {
   purchasable: string;
   priority: string;
 }
-export type Material = Record<string, number>;
-declare const craftables: (CraftableBase & Material)[];
+export type CraftableMaterial = Record<string, number>;
+declare const craftables: (CraftableBase & CraftableMaterial)[];
 export default craftables;

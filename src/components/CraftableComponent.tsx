@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import styled from 'styled-components';
 
-import { CraftableBase, Material } from '../csv/craftables.csv';
+import { CraftableBase, CraftableMaterial } from '../csv/craftables.csv';
 import DataContext, { InitialData } from '../context/InitialDataContext';
 import MaterialNeeded from './MaterialNeeded';
 import { generateNewItems, newData } from '../csv/utilities';
@@ -28,8 +28,8 @@ export const zeroMask = (x: number) => {
 }
 
 type CraftableProps = Omit<CraftableBase, 'group'|'priority'> & {
-  material: Material;
-  onQtyChange: (v: Material, d: InitialData) => void;
+  material: CraftableMaterial;
+  onQtyChange: (v: CraftableMaterial, d: InitialData) => void;
   onClose: () => void;
 };
 
@@ -60,7 +60,7 @@ const CraftableComponent: React.FC<CraftableProps> = (props) => {
   const [goal, setGoal] = useState(1);
   const [possession, setPossession] = useState(0);
   const [needed, setNeeded] = useState(0);
-  const [materialNeeded, setMaterialNeeded] = useState<Material>();
+  const [materialNeeded, setMaterialNeeded] = useState<CraftableMaterial>();
   const [openModal, setOpenModal] = React.useState<boolean>(false);
 
   React.useEffect(() => {

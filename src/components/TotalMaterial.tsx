@@ -2,11 +2,11 @@ import React from 'react';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import MaterialNeeded from './MaterialNeeded';
-import { Material } from '../csv/craftables.csv';
+import { CraftableMaterial } from '../csv/craftables.csv';
 
 
 type TotalMaterialProps = {
-  total: Material
+  total: CraftableMaterial
 };
 
 const TotalMaterial: React.FC<TotalMaterialProps> = (props) => {
