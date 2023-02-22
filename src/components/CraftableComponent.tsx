@@ -27,7 +27,8 @@ export const zeroMask = (x: number) => {
   return x + '';
 }
 
-type CraftableProps = Omit<CraftableBase, 'group'|'priority'> & {
+export type CraftableProps = Omit<CraftableBase, 'group'|'priority'> & {
+  single?: boolean;
   material: CraftableMaterial;
   onQtyChange: (v: CraftableMaterial, d: InitialData) => void;
   onClose: () => void;
@@ -39,14 +40,14 @@ const TitleCard = styled.div`
   .img {
     flex: 0 0 32px;
   }
-  .trash, .inventory {
+  .icon {
     align-self: flex-start;
     cursor: pointer;
-  }
-  .inventory {
-    padding-left: 10px;
-    margin-left: 10px;
-    border-left: 1px solid #ddd;
+    + .icon {
+      padding-left: 10px;
+      margin-left: 10px;
+      border-left: 1px solid #ddd;
+    }
   }
   .text {
     margin-left: 8px;
@@ -119,58 +120,60 @@ const CraftableComponent: React.FC<CraftableProps> = (props) => {
             </Typography>
           </div>
 
-          <div className="trash"
+          <div className="icon"
             onClick={() => props.onClose()}
           >
             <Delete />
           </div>
-          <div className="inventory"
+          <div className="icon"
             onClick={() => setOpenModal(true)}
           >
             <InventoryIcon />
           </div>
         </TitleCard> {' '}
-        <Grid container spacing={2}>
-          <Grid item xs={4}>
-            <TextField 
-              variant="standard" 
-              label="Goal" 
-              size="small"
-              inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-              value={goal} 
-              onChange={e => {
-                const isNumber = !isNaN(+e.currentTarget.value);
-                const value = +e.currentTarget.value;
-                isNumber && value <= MAX_VALUE && setGoal(value);
-              }}
-              InputLabelProps={{ shrink: true }}
-            />
+        {!props.single && (
+          <Grid container spacing={2}>
+            <Grid item xs={4}>
+              <TextField 
+                variant="standard" 
+                label="Goal" 
+                size="small"
+                inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                value={goal} 
+                onChange={e => {
+                  const isNumber = !isNaN(+e.currentTarget.value);
+                  const value = +e.currentTarget.value;
+                  isNumber && value <= MAX_VALUE && setGoal(value);
+                }}
+                InputLabelProps={{ shrink: true }}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField 
+                variant="standard" 
+                label="Possession" 
+                size="small"
+                inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                value={possession} 
+                onChange={e => {
+                  const isNumber = !isNaN(+e.currentTarget.value);
+                  const value = +e.currentTarget.value;
+                  isNumber && value <= MAX_VALUE && setPossession(value);
+                }}
+                InputLabelProps={{ shrink: true }}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                variant="standard" 
+                size="small"
+                disabled
+                label="Needed"
+                value={needed}
+              />
+            </Grid>
           </Grid>
-          <Grid item xs={4}>
-            <TextField 
-              variant="standard" 
-              label="Possession" 
-              size="small"
-              inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-              value={possession} 
-              onChange={e => {
-                const isNumber = !isNaN(+e.currentTarget.value);
-                const value = +e.currentTarget.value;
-                isNumber && value <= MAX_VALUE && setPossession(value);
-              }}
-              InputLabelProps={{ shrink: true }}
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <TextField
-              variant="standard" 
-              size="small"
-              disabled
-              label="Needed"
-              value={needed}
-            />
-          </Grid>
-        </Grid>
+        )}
         <Purchasable data={props.purchasable} />
         
         <div style={{marginTop: 10}}>
@@ -180,6 +183,7 @@ const CraftableComponent: React.FC<CraftableProps> = (props) => {
       <Modal
         open={openModal}
         onClose={() => setOpenModal(false)}
+        sx={{padding: 3}}
       >
         <Paper sx={{p: 3, maxWidth: 800, margin: '0 auto', mt: 2, bgColor: '#fff'}}>
           <InventoryMaster 
@@ -198,7 +202,7 @@ const Purchasable: React.FC<{data: string}> = (props) => {
   const [seller, value, currency, qty] = props.data.split('/');
   return (
     <Typography variant="body2" sx={{mt:1}}>
-      <SellerSprite id={ seller }/> selling for {value} {currency} / {qty ? `${qty} pcs` : 'pc'}
+      <SellerSprite id={ seller }/> selling for {value} {currency} / {qty? `${qty} units` : 'unit'}
     </Typography>
   );
 };

@@ -16,8 +16,11 @@ const MAX_VALUE = 99999;
 const ListParent = styled.ul`
   list-style: none;
   padding: 0;
-  columns: 2;
+  columns: 1;
   gap: 0 10px;
+  @media(min-width: 600px) {
+    columns: 2;
+  }
   > li {
     margin-bottom: 10px; 
     display: flex;

@@ -17,6 +17,7 @@ import Header from './components/Header';
 import mainLogo from './assets/main_logo.png';
 import CraftableSprite from './components/CraftableSprite';
 import InventoryMaster from './components/InventoryMaster';
+import CustomGoalForm from './components/CustomGoal';
 
 export type Craftable = CraftableBase & CraftableMaterial;
 const CssTextField = styled(TextField)({
@@ -82,6 +83,8 @@ const defaultConfigValue = {
   season: Season.EMPTY,
   year: Year.EMPTY
 };
+
+
 
 function App() {
   const calculateRef = React.useRef(new Map<string, CraftableMaterial>());
@@ -210,6 +213,16 @@ function App() {
                 </Splash>
               )}
               <div className="card">
+                <CustomGoalForm />
+                <CraftableComponent 
+                  single
+                  label={'custom goal'}
+                  id={0}
+                  purchasable={''}
+                  material={{}}
+                  onClose={() => {}}
+                  onQtyChange={() => {}}
+                />
                 { filter.map((label) => {
                   if (!craftable) return null;
                   const craft = _.find(craftable, { label }) as Craftable;
