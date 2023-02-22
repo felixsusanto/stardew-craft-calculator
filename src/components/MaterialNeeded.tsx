@@ -19,7 +19,7 @@ import { inventoryInitState } from './InventoryMaster';
 
 type MaterialNeededProps = {
   material?: CraftableMaterial;
-}; 
+};
 
 const SimpleRow = styled.div`
   display: flex;
@@ -49,7 +49,7 @@ const SimpleRow = styled.div`
   }
 `;
 
-type PriceCatReturn = 
+type PriceCatReturn =
   | {
     type: 'fixed';
     price: number;
@@ -58,19 +58,19 @@ type PriceCatReturn =
     type: 'season' | 'year';
     prices: number[];
   }
-;
+  ;
 
 const priceCategory = (p: string): PriceCatReturn => {
   const fixed = /\d+!/g;
   const season = /\d+\|\d+/;
   const year = /\d+\/\d+/;
   if (fixed.test(p)) {
-    const price =  +p.replace('!', '');
+    const price = +p.replace('!', '');
     return {
       type: 'fixed',
       price
     }
-  } else if(season.test(p)) {
+  } else if (season.test(p)) {
     return {
       type: 'season',
       prices: p.split('|').map(v => +v)
@@ -121,7 +121,7 @@ const SimpleChecklist: React.FC<SimpleChecklistProps> = (props) => {
             marginLeft: '3px',
             fill: '#067ff0',
             visibility: check ? 'visible' : 'hidden'
-          }}/>
+          }} />
         </Typography>
       </div>
     </SimpleRow>
@@ -206,40 +206,26 @@ const buyableBarsData: Bars[] = [
 ];
 
 interface onCalculationPayload {
-  id: string; 
+  id: string;
   payload: [number, number];
 };
 
 interface BuyListItemProps {
-  id: string;
   material: Material;
   priceCat: PriceCatReturn;
   qty: number;
   season: Season;
   year: Year;
-  onCalculation?: (v: onCalculationPayload) => void;
 }
 
 const BuyListItem: React.FC<BuyListItemProps> = (p) => {
   const { material, priceCat, qty, year, season } = p;
-  React.useEffect(() => {
-    if (p.onCalculation) {
-      let payload: onCalculationPayload;
-      if (priceCat.type === 'fixed') {
-        const total = priceCat.price * qty;
-        payload = {id: p.id, payload: [total, total]};
-      } else {
-        payload = {id: p.id, payload: priceCat.prices.map(p => p * qty) as [number, number]};
-      }
-      p.onCalculation(payload);
-    }
-  }, [material, priceCat, qty, year, season])
-  
+
   return (
     <SimpleRow>
-      <div style={{display: 'flex', alignItems: 'center'}}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
         <div className="img">
-          <MaterialSprite id={zeroMask(material.id)}/>
+          <MaterialSprite id={zeroMask(material.id)} />
         </div>
         <div className="txt">
           <Typography variant="body2">
@@ -249,11 +235,11 @@ const BuyListItem: React.FC<BuyListItemProps> = (p) => {
       </div>
       <div className="dots" />
       <div className="qty">
-        <Typography variant="body2" sx={{display: 'inline-block'}}>
-          { priceCat.type === 'fixed' && 
+        <Typography variant="body2" sx={{ display: 'inline-block' }}>
+          {priceCat.type === 'fixed' &&
             <span><b>{numeral(priceCat.price * qty).format('0,0')}</b> G</span>
           }
-          { priceCat.type === 'year' && 
+          {priceCat.type === 'year' &&
             priceCat.prices
               .map((p, i) => {
                 if (year === Year.ONE && i === 1) return null;
@@ -268,7 +254,7 @@ const BuyListItem: React.FC<BuyListItemProps> = (p) => {
                 );
               })
           }
-          { priceCat.type === 'season' &&
+          {priceCat.type === 'season' &&
             priceCat.prices
               .map((p, i) => {
                 if (season !== Season.EMPTY) {
@@ -287,24 +273,18 @@ const BuyListItem: React.FC<BuyListItemProps> = (p) => {
           }
         </Typography>
         <SellerSprite id={material.seller} scale={1}
-          style={{display: 'inline-block'}}
+          style={{ display: 'inline-block' }}
         />
       </div>
     </SimpleRow>
   );
 }
 
-const reducer: React.Reducer<Record<string, [number, number]>, onCalculationPayload> = (state, action) => {
-  const cloned = _.cloneDeep(state);
-  cloned[action.id] = action.payload;
-  return cloned;
-};
 
 const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
   const { inventory } = React.useContext(DataContext);
   const [buy, setBuy] = React.useState<boolean>();
   const { config } = React.useContext(CalculatorConfigContext);
-  const [state, dispatch] = React.useReducer(reducer, {});
   if (!config || !p.material) return null;
   const { year, season } = config;
   const keys = Object.keys(p.material);
@@ -312,25 +292,25 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
 
   const soldMaterial = _.filter(materialCsv, v => v.price !== '')
     .map(v => v.material)
-  ;
+    ;
   const buyableBars = buyableBarsData.map(v => v.name);
   const intersection = _.intersection(soldMaterial, keys);
   const barsSection = _.intersection(buyableBars, keys);
   const buyable = !!intersection.length;
   const inventoryState = inventoryInitState(inventory);
-  
+
   return (
     <React.Fragment>
-      <div style={{display: 'flex', flexWrap: 'wrap', gap: '0 30px'}}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0 30px' }}>
         {keys.map((key) => {
-          const material = _.find(materialCsv, {material: key});
+          const material = _.find(materialCsv, { material: key });
           if (!material || !p.material) return null;
           const progressValue = Math.min(inventoryState[material.material] / p.material[key] * 100, 100);
           const shortSurplus = p.material[key] - inventoryState[material.material];
           const tooltipMsg = shortSurplus > 0 ? `Short of ${shortSurplus} units` : `Surplus of ${Math.abs(shortSurplus)} units from inventory`;
           return (
             <ChecklistContainer key={key}>
-              <SimpleChecklist 
+              <SimpleChecklist
                 material={material.material}
                 value={p.material[key]}
                 tooltipTitle={tooltipMsg}
@@ -342,64 +322,62 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
                 </div>
               </SimpleChecklist>
               <div className="progress">
-                <LinearProgress variant="determinate" 
+                <LinearProgress variant="determinate"
                   value={progressValue}
-                  sx={{height: 2}}
-                /> 
+                  sx={{ height: 2 }}
+                />
               </div>
             </ChecklistContainer>
           );
         })}
       </div>
-      { buyable && (
+      {buyable && (
         <BuySection>
           <FormGroup>
-            <FormControlLabel 
+            <FormControlLabel
               control={<Checkbox size="small" />}
               label="Buy Resources"
-              componentsProps={{typography: { variant: 'body2' }}}
+              componentsProps={{ typography: { variant: 'body2' } }}
               onChange={(e, v) => {
                 setBuy(v);
               }}
               value={buy}
             />
           </FormGroup>
-          { buy && (
+          {buy && (
             <React.Fragment>
               <div>
                 {intersection
                   .map((key) => {
-                    const material = _.find(materialCsv, {material: key})!;
+                    const material = _.find(materialCsv, { material: key })!;
                     const priceCat = priceCategory(material.price);
                     const qty = Math.max((p.material!)[key] - inventoryState[material.material], 0);
-                    const props = { material, priceCat, qty, season, year, onCalculation:console.log };
-                    return <BuyListItem {...props} key={key} id={key}/>;
+                    const props = { material, priceCat, qty, season, year, onCalculation: console.log };
+                    return <BuyListItem {...props} key={key} />;
                   })
                 }
               </div>
               {barsSection.length > 0 && (
-                <div style={{marginTop: 8}}>
+                <div style={{ marginTop: 8 }}>
                   {barsSection.map((key) => {
-                    const bar = _.find(buyableBarsData, {name: key})!;
+                    const bar = _.find(buyableBarsData, { name: key })!;
                     const qty = Math.max((p.material!)[key] - inventoryState[key], 0);
                     if (!qty) return null;
                     return (
                       <div key={key}>
                         <Typography variant="body2">
-                          <MaterialSprite id={zeroMask(bar.id)}/> {' '}
+                          <MaterialSprite id={zeroMask(bar.id)} /> {' '}
                           <b>{key} &times; {qty}</b>
                         </Typography>
-                        <div style={{marginLeft: 16}}>
+                        <div style={{ marginLeft: 16 }}>
                           {bar.ingredients.map((ing) => {
-                            const material = _.find(materialCsv, {material: ing.name})!;
+                            const material = _.find(materialCsv, { material: ing.name })!;
                             const props: BuyListItemProps = {
-                              id: `${key}_${ing.name}`,
                               qty: ing.qty * qty,
                               material,
                               priceCat: priceCategory(material.price),
                               season,
                               year,
-                              onCalculation:console.log
                             };
                             return <BuyListItem key={ing.name} {...props} />
                           })}
@@ -410,7 +388,7 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
                 </div>
               )}
               {(intersection.length + barsSection.length) > 1 && (
-                <div style={{marginTop: 8}}>
+                <div style={{ marginTop: 8 }}>
                   <SimpleRow>
                     <div>
                       <b>Total Costs</b>
@@ -419,29 +397,28 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
                     <div className="qty">
                       {[...intersection
                         .map((key) => {
-                          const material = _.find(materialCsv, {material: key})!;
+                          const material = _.find(materialCsv, { material: key })!;
                           const priceCat = priceCategory(material.price);
                           const qty = Math.max((p.material!)[key] - inventoryState[material.material], 0);
-                          
                           return {
                             material, priceCat, qty
                           }
                         }),
-                        ...barsSection
+                      ...barsSection
                         .map((barName) => {
-                          const bar = _.find(buyableBarsData, {name: barName})!;
+                          const bar = _.find(buyableBarsData, { name: barName })!;
                           const qty = Math.max((p.material!)[barName] - inventoryState[barName], 0);
                           const keys = bar.ingredients.map(ing => {
-                            const material = _.find(materialCsv, {material: ing.name})!;
+                            const material = _.find(materialCsv, { material: ing.name })!;
                             const priceCat = priceCategory(material.price);
-                            return { material, priceCat, qty: ing.qty * qty};
+                            return { material, priceCat, qty: ing.qty * qty };
                           });
                           return keys;
                         })
                         .reduce((acc, curr) => [...acc, ...curr], [])
-                        ]
+                      ]
                         .map((p) => {
-                          const {priceCat, material, qty} = p;
+                          const { priceCat, material, qty } = p;
                           if (priceCat.type === 'fixed') {
                             const total = priceCat.price * qty;
                             return [total, total];
@@ -468,9 +445,9 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
                         .map((v, i, arr) => {
                           const sameValueArray = arr[0] === arr[1];
                           if (sameValueArray && i === 0) return null;
-                          const title = sameValueArray ? 
+                          const title = sameValueArray ?
                             'Total Costs' : (i ? 'Maximum Cost' : 'Minimum Cost')
-                          ;
+                            ;
                           return (
                             <React.Fragment key={i}>
                               <Tooltip
@@ -490,7 +467,7 @@ const MaterialNeeded: React.FC<MaterialNeededProps> = (p) => {
               )}
             </React.Fragment>
           )}
-          
+
         </BuySection>
       )}
     </React.Fragment>
