@@ -55,7 +55,8 @@ export const inventoryInitState = (inventory?: InventoryData[]) => {
 };
 
 interface InventoryProps {
-  craftableFilter?: string;
+  craftableFilter?: string | null;
+  materialFilter?: string[];
   onClose?: () => void;
 }
 
@@ -74,14 +75,11 @@ const InventoryMaster: React.FC<InventoryProps> = (p) => {
   const { inventory, setInventory } = React.useContext(DataContext);
   const [state, dispatch] = React.useReducer(reducer, inventory, inventoryInitState);
   const [filter, setFilter] = React.useState<string>();
-  React.useEffect(() => {
-    p.craftableFilter && 
-    checkMaterial(p.craftableFilter);
-  }, []);
+ 
   return (
     <React.Fragment>
       <Typography variant="h6">Item Inventory {p.craftableFilter ? `: ${p.craftableFilter}` : ''}</Typography>
-      {!p.craftableFilter && (
+      {p.craftableFilter === undefined && (
         <TextField 
           label="Filter" 
           variant="outlined" 
@@ -100,9 +98,14 @@ const InventoryMaster: React.FC<InventoryProps> = (p) => {
       <ListParent>
         {Materials
           .filter((m) => {
-            if (!p.craftableFilter) return true;
-            const whitelisted = checkMaterial(p.craftableFilter);
-            return whitelisted.some(item => item === m.material);
+            if (p.craftableFilter) {
+              const whitelisted = checkMaterial(p.craftableFilter);
+              return whitelisted.some(item => item === m.material);
+            } else if (Array.isArray(p.materialFilter) && p.materialFilter.length) {
+              return p.materialFilter.some(item => item === m.material);
+            } else {
+              return true;
+            }
           })
           .filter((m) => {
             if (!filter) return true;

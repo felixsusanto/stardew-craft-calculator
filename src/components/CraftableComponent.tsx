@@ -8,7 +8,7 @@ import Paper from '@mui/material/Paper';
 import styled from 'styled-components';
 
 import { CraftableBase, CraftableMaterial } from '../csv/craftables.csv';
-import DataContext, { InitialData } from '../context/InitialDataContext';
+import DataContext, { BaseInitData } from '../context/InitialDataContext';
 import MaterialNeeded from './MaterialNeeded';
 import { generateNewItems, newData } from '../csv/utilities';
 import CraftableSprite, { SellerSprite } from './CraftableSprite';
@@ -30,8 +30,9 @@ export const zeroMask = (x: number) => {
 export type CraftableProps = Omit<CraftableBase, 'group'|'priority'> & {
   single?: boolean;
   material: CraftableMaterial;
-  onQtyChange: (v: CraftableMaterial, d: InitialData) => void;
+  onQtyChange: (v: CraftableMaterial, d: BaseInitData) => void;
   onClose: () => void;
+  materialFilter?: string[];
 };
 
 const TitleCard = styled.div`
@@ -187,7 +188,8 @@ const CraftableComponent: React.FC<CraftableProps> = (props) => {
       >
         <Paper sx={{p: 3, maxWidth: 800, margin: '0 auto', mt: 2, bgColor: '#fff'}}>
           <InventoryMaster 
-            craftableFilter={props.label} 
+            craftableFilter={Array.isArray(props.materialFilter) && props.materialFilter.length ? null : props.label}
+            materialFilter={props.materialFilter}
             onClose={() => setOpenModal(false)}
           />
         </Paper>

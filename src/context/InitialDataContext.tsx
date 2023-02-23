@@ -1,10 +1,17 @@
 import React from 'react';
 
-export type InitialData = {
+export interface BaseInitData {
   label: string;
   goal: number;
   possession: number;
-};
+}
+
+export type InitialData = ({
+  type: undefined;
+} & BaseInitData) | ({
+  type: 'goal';
+  meta: Record<string, any>;
+} & BaseInitData);
 
 export type InventoryData = {
   name: string;
