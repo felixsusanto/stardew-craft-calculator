@@ -59,6 +59,7 @@ const TitleCard = styled.div`
 `;
 
 const CraftableComponent: React.FC<CraftableProps> = (props) => {
+  const prevMaterialProps = React.useRef<CraftableMaterial|null>(null);
   const { initData } = React.useContext(DataContext);
   const [goal, setGoal] = useState(1);
   const [possession, setPossession] = useState(0);
@@ -67,12 +68,18 @@ const CraftableComponent: React.FC<CraftableProps> = (props) => {
   const [openModal, setOpenModal] = React.useState<boolean>(false);
 
   React.useEffect(() => {
+    prevMaterialProps.current = props.material;
+  }, [props.material]);
+
+  React.useEffect(() => {
     const res = goal - possession;
     setNeeded(res >= 0 ? res : 0);
   }, [goal, possession]);
   
   React.useEffect(() => {
     const clone = {...props.material};
+    const noChange = _.isEqual(prevMaterialProps.current, clone);
+    
     Object.keys(clone)
       .forEach(key => {
         const num = clone[key] * needed;
@@ -80,11 +87,13 @@ const CraftableComponent: React.FC<CraftableProps> = (props) => {
       })
     ;
     const filtered = _.omitBy(clone, (v) => v === 0);
-    props.onQtyChange(clone, {
-      label: props.label,
-      goal, 
-      possession
-    });
+    if (!noChange) {
+      props.onQtyChange(clone, {
+        label: props.label,
+        goal, 
+        possession
+      });
+    }
     setMaterialNeeded(filtered);
   }, [needed, props.material]);
 
@@ -98,6 +107,8 @@ const CraftableComponent: React.FC<CraftableProps> = (props) => {
       }
     }
   }, [initData]);
+
+  
 
   return (
     <>
