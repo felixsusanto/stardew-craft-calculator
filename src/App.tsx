@@ -7,8 +7,9 @@ import TextField from '@mui/material/TextField';
 import CraftableComponent, { zeroMask } from './components/CraftableComponent';
 import TotalMaterial from './components/TotalMaterial';
 import DataContext, { DataContextType, InitialData, InventoryData } from './context/InitialDataContext';
-import CalculatorConfigContext, { CalculatorConfigType, CalculatorConfig, Season, Year } from './context/CalculatorConfigContext';
+import CalculatorConfigContext, { CalculatorConfig, Season, Year } from './context/CalculatorConfigContext';
 import { Box } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import styled from 'styled-components';
 import Footer from './components/Footer';
 import Fab from '@mui/material/Fab';
@@ -16,7 +17,8 @@ import { ArrowUpward } from '@mui/icons-material';
 import Header from './components/Header'; 
 import mainLogo from './assets/main_logo.png';
 import CraftableSprite from './components/CraftableSprite';
-import InventoryMaster from './components/InventoryMaster';
+import CustomGoalForm, { CustomGoalFormPayload } from './components/CustomGoal';
+import { ModeEditOutlined as ModeEditOutlinedIcon } from '@mui/icons-material';
 
 export type Craftable = CraftableBase & CraftableMaterial;
 const CssTextField = styled(TextField)({
@@ -83,6 +85,8 @@ const defaultConfigValue = {
   year: Year.EMPTY
 };
 
+
+
 function App() {
   const calculateRef = React.useRef(new Map<string, CraftableMaterial>());
   const initDataRef = React.useRef(new Map<string, InitialData>());
@@ -93,6 +97,7 @@ function App() {
   const [ctx, setCtx] = useState<Omit<DataContextType, 'setInventory'>>({});
   const [inventory, setInventory] = useState<InventoryData[]>([]);
   const [config, setConfig] = useState<CalculatorConfig>();
+  const [customGoal, setCustomGoal] = useState<CustomGoalFormPayload[]>([]);
   
 
   React.useEffect(() => {
@@ -114,8 +119,26 @@ function App() {
 
   React.useEffect(() => {
     if (typeof ctx.initData !== 'undefined' && ctx.initData.length) {
-      const filter = ctx.initData.map((item) => item.label);
-      setFilter(filter);
+      const craftables = ctx.initData
+        .filter(item => item.type === undefined)
+        .map((item) => item.label)
+      ;
+      const customGoals = ctx.initData
+        .filter(item => item.type === 'goal')
+        .map(item => {
+          if (item.type === 'goal') {
+            const divide = item.goal - item.possession;
+            const meta = item.meta as CustomGoalFormPayload;
+            const dividedMats = _.mapValues(meta.materials, (val) =>  val / divide);
+            meta.materials = dividedMats;
+            return item.meta;
+          }
+          throw new Error('wont be here');
+        }) as CustomGoalFormPayload[]
+      ;
+      console.log('customGoal', customGoals);
+      setCustomGoal(customGoals);
+      setFilter(craftables);
     }
   }, [ctx]);
   React.useEffect(() => {
@@ -152,6 +175,7 @@ function App() {
     ;
     setTotal(total);
     const t = [...initDataRef.current.values()];
+    console.log('t', t, initDataRef.current);
     window.localStorage.setItem('initData', JSON.stringify(t));
   }, [recalculate]);
   
@@ -195,10 +219,17 @@ function App() {
           </Header>
           <div className="mid">
             <Container>
-              { filter.length > 1 && (
+              <Grid container justifyContent="flex-end">
+                <CustomGoalForm 
+                  onAddGoal={(goal) => {
+                    setCustomGoal(curr => [...curr, goal]);
+                  }}
+                />
+              </Grid>
+              { (filter.length + customGoal.length) > 1 && (
                 <TotalMaterial total={_.omitBy(total, (v) => v === 0)} />
               )}
-              { !filter.length && (
+              { (filter.length + customGoal.length) <= 0 && (
                 <Splash>
                   <div className="title">
                     Craftables&nbsp;Calculator
@@ -210,6 +241,59 @@ function App() {
                 </Splash>
               )}
               <div className="card">
+                {customGoal.map((goal) => {
+                  return (
+                    <CraftableComponent 
+                      key={goal.id}
+                      single={!goal.repeatable}
+                      label={`Goal: ${goal.name}`}
+                      id={goal.id}
+                      purchasable={''}
+                      material={goal.materials}
+                      materialFilter={Object.keys(goal.materials)}
+                      onClose={() => {
+                        const newArr =_.filter(customGoal, (o) => o.id !== goal.id);
+                        calculateRef.current.delete(`goal_${goal.id}`);
+                        initDataRef.current.delete(`goal_${goal.id}`);
+                        setCustomGoal(newArr);
+                        setRecalculate(!recalculate);
+                      }}
+                      onQtyChange={(m, d) => {
+                        calculateRef.current.set(`goal_${goal.id}`, m);
+                        initDataRef.current.set(`goal_${goal.id}`, {...d, type: 'goal', meta: {
+                          materials: m,
+                          repeatable: goal.repeatable,
+                          id: goal.id,
+                          name: goal.name
+                        }});
+                        setRecalculate(!recalculate);
+                      }}
+                      iconSection={
+                        <CustomGoalForm 
+                          className="icon"
+                          ctaComponent={<ModeEditOutlinedIcon />}
+                          initPayload={_.find(customGoal, o => o.id === goal.id)}
+                          onAddGoal={(v) => {
+                            let payload: any;
+                            setCustomGoal((curr) => {
+                              const clone = _.cloneDeep(curr);
+                              const index = _.findIndex(clone, o => o.id === goal.id);
+                              // clone[index] = {...v, id: goal.id };
+                              payload = {...v, id: goal.id };
+                              clone[index] = payload;
+                              console.log('clone', clone, goal.id);
+                              return clone;
+                            });
+                            const id = `goal_${goal.id}`;
+                            const existing = initDataRef.current.get(id)!;
+                            initDataRef.current.set(`goal_${goal.id}`, { ...existing, type: 'goal', meta: payload });
+                            setRecalculate(!recalculate);
+                          }}
+                        />
+                      }
+                    />
+                  );
+                })}
                 { filter.map((label) => {
                   if (!craftable) return null;
                   const craft = _.find(craftable, { label }) as Craftable;
@@ -244,7 +328,7 @@ function App() {
                       onQtyChange={(m, d) => {
                         const {group, season, purchasable, priority, ...rest} = m;
                         calculateRef.current.set(name, rest);
-                        initDataRef.current.set(d.label, d);
+                        initDataRef.current.set(d.label, {...d, type: undefined});
                         setRecalculate(!recalculate);
                       }}
                     />
