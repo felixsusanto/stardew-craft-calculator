@@ -22,10 +22,7 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 type Option = { label: string; id: number; };
 
-const options: Option[] = [
-  ...materialCsv.map((m) => ({ label: m.material, id: m.id })),
-  { label: 'Money', id: 384 }
-];
+const options: Option[] = materialCsv.map((m) => ({ label: m.material, id: m.id }));
 
 const validate = (arrStr: string[], obj: Record<string, number>, name: string) => {
   if (!arrStr.length || !name.trim().length) return false;
@@ -55,7 +52,10 @@ export interface CustomGoalFormPayload {
 }
 
 interface CustomGoalFormProps {
+  initPayload?: CustomGoalFormPayload;
   onAddGoal?: (p: CustomGoalFormPayload) => void;
+  ctaComponent?: React.ReactNode;
+  className?: string;
 }
 
 const CustomGoalForm: React.FC<CustomGoalFormProps> = (props) => {
@@ -65,6 +65,29 @@ const CustomGoalForm: React.FC<CustomGoalFormProps> = (props) => {
   const [goals, setGoals] = React.useState<Record<string, number>>({});
   const [openModal, setOpenModal] = React.useState<boolean>(false);
 
+  const init = () => {
+    if (props.initPayload) {
+      const { name, materials, repeatable } = props.initPayload;
+      const keys = Object.keys(materials);
+      const options = _.filter(materialCsv, (o) => {
+        return keys.some(v => v === o.material);
+      }).map(o => {
+        return {
+          label: o.material,
+          id: o.id,
+        }
+      }) as Option[];
+      setName(name);
+      setRepeatable(repeatable);
+      setMaterials(options);
+      setGoals(materials);
+    } else {
+      setName('');
+      setRepeatable(true);
+      setMaterials([]);
+      setGoals({});
+    }
+  };
   React.useEffect(() => {
     const keys = materials.map(o => o.label);
     setGoals(curr => {
@@ -72,12 +95,23 @@ const CustomGoalForm: React.FC<CustomGoalFormProps> = (props) => {
       return t;
     });
   }, [materials]);
+
+  React.useEffect(() => {
+    init();
+  }, [props.initPayload]);
+
   return (
     <>
-      <Button variant="contained"
+      <div
+        className={props.className}
         onClick={() => setOpenModal(true)}
-        sx={{mb: 2}}
-      >Add Custom Goal</Button>
+      >
+        {props.ctaComponent ? props.ctaComponent : (
+          <Button variant="contained"
+            sx={{mb: 2}}
+          >Add Custom Goal</Button>
+        )}
+      </div>
       <Modal 
         open={openModal}
         onClose={() => setOpenModal(false)}
@@ -117,7 +151,9 @@ const CustomGoalForm: React.FC<CustomGoalFormProps> = (props) => {
             size="small"
             multiple
             disableCloseOnSelect
+            isOptionEqualToValue={(o, v) => _.isEqual(o,v)}
             options={options}
+            value={materials}
             onChange={(e, v) => {
               setMaterials(v);
             }}
@@ -173,9 +209,7 @@ const CustomGoalForm: React.FC<CustomGoalFormProps> = (props) => {
               color="error"
               onClick={() => {
                 setOpenModal(false);
-                setName('');
-                setGoals({});
-                setMaterials([]);
+                init();
               }}
             >Cancel</Button>
             <Button variant="outlined"
@@ -191,14 +225,10 @@ const CustomGoalForm: React.FC<CustomGoalFormProps> = (props) => {
                   props.onAddGoal(payload);
                 }
                 setOpenModal(false);
-                setName('');
-                setGoals({});
-                setMaterials([]);
+                
               }}
             >Submit</Button>
-            
           </Grid>
-          
         </Paper>
       </Modal>
     </>

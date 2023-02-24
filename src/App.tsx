@@ -18,6 +18,7 @@ import Header from './components/Header';
 import mainLogo from './assets/main_logo.png';
 import CraftableSprite from './components/CraftableSprite';
 import CustomGoalForm, { CustomGoalFormPayload } from './components/CustomGoal';
+import { ModeEditOutlined as ModeEditOutlinedIcon } from '@mui/icons-material';
 
 export type Craftable = CraftableBase & CraftableMaterial;
 const CssTextField = styled(TextField)({
@@ -174,7 +175,7 @@ function App() {
     ;
     setTotal(total);
     const t = [...initDataRef.current.values()];
-    console.log('t', t);
+    console.log('t', t, initDataRef.current);
     window.localStorage.setItem('initData', JSON.stringify(t));
   }, [recalculate]);
   
@@ -245,7 +246,7 @@ function App() {
                     <CraftableComponent 
                       key={goal.id}
                       single={!goal.repeatable}
-                      label={goal.name}
+                      label={`Goal: ${goal.name}`}
                       id={goal.id}
                       purchasable={''}
                       material={goal.materials}
@@ -267,6 +268,29 @@ function App() {
                         }});
                         setRecalculate(!recalculate);
                       }}
+                      iconSection={
+                        <CustomGoalForm 
+                          className="icon"
+                          ctaComponent={<ModeEditOutlinedIcon />}
+                          initPayload={_.find(customGoal, o => o.id === goal.id)}
+                          onAddGoal={(v) => {
+                            let payload: any;
+                            setCustomGoal((curr) => {
+                              const clone = _.cloneDeep(curr);
+                              const index = _.findIndex(clone, o => o.id === goal.id);
+                              // clone[index] = {...v, id: goal.id };
+                              payload = {...v, id: goal.id };
+                              clone[index] = payload;
+                              console.log('clone', clone, goal.id);
+                              return clone;
+                            });
+                            const id = `goal_${goal.id}`;
+                            const existing = initDataRef.current.get(id)!;
+                            initDataRef.current.set(`goal_${goal.id}`, { ...existing, type: 'goal', meta: payload });
+                            setRecalculate(!recalculate);
+                          }}
+                        />
+                      }
                     />
                   );
                 })}

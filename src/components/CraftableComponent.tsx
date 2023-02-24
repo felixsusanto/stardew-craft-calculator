@@ -33,6 +33,7 @@ export type CraftableProps = Omit<CraftableBase, 'group'|'priority'> & {
   onQtyChange: (v: CraftableMaterial, d: BaseInitData) => void;
   onClose: () => void;
   materialFilter?: string[];
+  iconSection?: React.ReactNode;
 };
 
 const TitleCard = styled.div`
@@ -85,7 +86,7 @@ const CraftableComponent: React.FC<CraftableProps> = (props) => {
       possession
     });
     setMaterialNeeded(filtered);
-  }, [needed]);
+  }, [needed, props.material]);
 
   React.useEffect(() => {
     if (initData) {
@@ -131,6 +132,7 @@ const CraftableComponent: React.FC<CraftableProps> = (props) => {
           >
             <InventoryIcon />
           </div>
+          {props.iconSection}
         </TitleCard> {' '}
         {!props.single && (
           <Grid container spacing={2}>
