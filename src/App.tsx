@@ -176,6 +176,7 @@ function App() {
     ;
     setTotal(total);
     const t = [...initDataRef.current.values()];
+    setCtx(existing => ({...existing, initData: t}));
     console.log('t', t, initDataRef.current);
     window.localStorage.setItem('initData', JSON.stringify(t));
   }, [recalculate]);
