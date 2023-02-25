@@ -4,7 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import craftableCsv, { CraftableBase, CraftableMaterial } from './csv/craftables.csv';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import CraftableComponent, { zeroMask } from './components/CraftableComponent';
+import CraftableComponent, { CraftableComponentHandler, zeroMask } from './components/CraftableComponent';
 import TotalMaterial from './components/TotalMaterial';
 import DataContext, { DataContextType, InitialData, InventoryData } from './context/InitialDataContext';
 import CalculatorConfigContext, { CalculatorConfig, Season, Year } from './context/CalculatorConfigContext';
@@ -90,6 +90,7 @@ const defaultConfigValue = {
 function App() {
   const calculateRef = React.useRef(new Map<string, CraftableMaterial>());
   const initDataRef = React.useRef(new Map<string, InitialData>());
+  const customGoalRef = React.useRef<Record<string, CraftableComponentHandler>>(null);
   const [craftable, setCraftable] = useState<Craftable[]>();
   const [filter, setFilter] = useState<string[]>([]);
   const [recalculate, setRecalculate] = useState<boolean>();
@@ -242,8 +243,10 @@ function App() {
               )}
               <div className="card">
                 {customGoal.map((goal) => {
+                  const myRef = { current: null };
                   return (
-                    <CraftableComponent 
+                    <CraftableComponent
+                      ref={myRef} 
                       key={goal.id}
                       single={!goal.repeatable}
                       label={`Goal: ${goal.name}`}
@@ -266,6 +269,7 @@ function App() {
                           id: goal.id,
                           name: goal.name
                         }});
+                        
                         setRecalculate(!recalculate);
                       }}
                       iconSection={
@@ -288,6 +292,7 @@ function App() {
                             const existing = initDataRef.current.get(id)!;
                             initDataRef.current.set(`goal_${goal.id}`, { ...existing, type: 'goal', meta: payload });
                             setRecalculate(!recalculate);
+                            myRef.current && (myRef.current as any).updateMaterial(payload.materials);
                           }}
                         />
                       }

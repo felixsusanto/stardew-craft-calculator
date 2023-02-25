@@ -10,7 +10,6 @@ import styled from 'styled-components';
 import { CraftableBase, CraftableMaterial } from '../csv/craftables.csv';
 import DataContext, { BaseInitData } from '../context/InitialDataContext';
 import MaterialNeeded from './MaterialNeeded';
-import { generateNewItems, newData } from '../csv/utilities';
 import CraftableSprite, { SellerSprite } from './CraftableSprite';
 import InventoryMaster from './InventoryMaster';
 import Modal from '@mui/material/Modal';
@@ -58,7 +57,24 @@ const TitleCard = styled.div`
   }
 `;
 
-const CraftableComponent: React.FC<CraftableProps> = (props) => {
+
+const updateMaterialNeeded = (material: CraftableMaterial, needed: number) => {
+  const clone = {...material};
+  Object.keys(clone)
+    .forEach(key => {
+      const num = clone[key] * needed;
+      clone[key] = num;
+    })
+  ;
+  const filtered = _.omitBy(clone, (v) => v === 0);
+  return filtered;
+};
+
+export interface CraftableComponentHandler {
+  updateMaterial: (m: CraftableMaterial) => void;
+}
+
+const CraftableComponent: React.ForwardRefRenderFunction<CraftableComponentHandler, CraftableProps> = (props, ref) => {
   const prevMaterialProps = React.useRef<CraftableMaterial|null>(null);
   const { initData } = React.useContext(DataContext);
   const [goal, setGoal] = useState(1);
@@ -66,6 +82,15 @@ const CraftableComponent: React.FC<CraftableProps> = (props) => {
   const [needed, setNeeded] = useState(0);
   const [materialNeeded, setMaterialNeeded] = useState<CraftableMaterial>();
   const [openModal, setOpenModal] = React.useState<boolean>(false);
+
+  React.useImperativeHandle(ref, () => {
+    return {
+      updateMaterial: (m) => {
+        const filtered = updateMaterialNeeded(m, needed);
+        setMaterialNeeded(filtered);
+      },
+    };
+  });
 
   React.useEffect(() => {
     prevMaterialProps.current = props.material;
@@ -78,24 +103,14 @@ const CraftableComponent: React.FC<CraftableProps> = (props) => {
   
   React.useEffect(() => {
     const clone = {...props.material};
-    const noChange = _.isEqual(prevMaterialProps.current, clone);
-    
-    Object.keys(clone)
-      .forEach(key => {
-        const num = clone[key] * needed;
-        clone[key] = num;
-      })
-    ;
-    const filtered = _.omitBy(clone, (v) => v === 0);
-    if (!noChange) {
-      props.onQtyChange(clone, {
-        label: props.label,
-        goal, 
-        possession
-      });
-    }
+    const filtered = updateMaterialNeeded(props.material, needed);
+    props.onQtyChange(clone, {
+      label: props.label,
+      goal, 
+      possession
+    });
     setMaterialNeeded(filtered);
-  }, [needed, props.material]);
+  }, [needed]);
 
   React.useEffect(() => {
     if (initData) {
@@ -107,8 +122,6 @@ const CraftableComponent: React.FC<CraftableProps> = (props) => {
       }
     }
   }, [initData]);
-
-  
 
   return (
     <>
@@ -222,4 +235,4 @@ const Purchasable: React.FC<{data: string}> = (props) => {
   );
 };
 
-export default CraftableComponent;
+export default React.forwardRef(CraftableComponent);
